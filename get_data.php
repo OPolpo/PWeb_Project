@@ -6,8 +6,8 @@ $mysql_db_database = "p_web";
 
 ini_set("display_errors",1);
 
-$id = $_GET["id"];
-$depth = $_GET["depth"];
+$id = $_REQUEST["id"];
+$depth = $_REQUEST["depth"];
 
 
 $con = @mysqli_connect($mysql_db_hostname, $mysql_db_user, $mysql_db_password, $mysql_db_database);
