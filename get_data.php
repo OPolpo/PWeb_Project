@@ -6,7 +6,8 @@ $mysql_db_database = "p_web";
 
 ini_set("display_errors",1);
 
-$id = 1;
+$id = $_GET["id"];
+$depth = $_GET["depth"];
 
 
 $con = @mysqli_connect($mysql_db_hostname, $mysql_db_user, $mysql_db_password, $mysql_db_database);
@@ -93,5 +94,5 @@ function get_node_to_depth($id_to_search, $depth){
 	return substr(get_node_recursive($id_to_search,1,0,$depth),0,-1);
 }
 
-echo get_node_to_depth(0,2); // MANCANO LE VIRGOLE TRA LE PARENTESI
+echo get_node_to_depth($id, $depth);
 ?>
