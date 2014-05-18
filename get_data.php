@@ -24,6 +24,7 @@ function get_name_by_id($id_to_search){
 	else
 		$name="NAME_ERROR_".sizeof($name)."_NAME_EXIST";
 	return $name;
+
 }
 
 function get_node($id_to_search, $weight, $father){
@@ -91,6 +92,9 @@ function get_node_recursive($id_to_search, $weight, $father, $depth){
 }
 
 function get_node_to_depth($id_to_search, $depth){
+	global $con;
+	$id_to_search=mysqli_escape_string($con, $id_to_search);
+	$depth=mysqli_escape_string($con, $depth);
 	return substr(get_node_recursive($id_to_search,1,0,$depth),0,-1);
 }
 
