@@ -21,6 +21,9 @@ var json_results;
  animate = !(iStuff || !nativeCanvasSupport);
  })();
 
+function showLoading(){
+    $jit.id('infovis').innerHTML = '<div id ="loading"><img src="resource/loading.gif"/></div>';
+}
 
 function sale(){
     var height_low = "55px";
@@ -67,25 +70,26 @@ function get_property(id){
     
     var json_property;
     $.ajax({
-           type: "POST",
-           url: "http://localhost:8888/PWeb_Project/API/get_property.php",
-           data: myData,
-           success: function(msg){
-           json_property=jQuery.parseJSON(msg);
-           },
-           error: function(err) {
-           alert('error!');
-           },
-           complete: function(){
-           $jit.id('inner-details').innerHTML ="";
-           for (var k in json_property)
-           $jit.id('inner-details').innerHTML += json_property[k].p_name +":  " + json_property[k].p_value + "<br><br>";
-           }
-           });
+        type: "POST",
+        url: "http://localhost:8888/PWeb_Project/API/get_property.php",
+        data: myData,
+        success: function(msg){
+            json_property=jQuery.parseJSON(msg);
+        },
+        error: function(err) {
+            alert('error!');
+        },
+        complete: function(){
+            $jit.id('inner-details').innerHTML ="";
+            for (var k in json_property)
+                $jit.id('inner-details').innerHTML += json_property[k].p_name +":  " + json_property[k].p_value + "<br><br>";
+        }
+    });
     
 }
 
 function get_tag(){
+    showLoading();
     if($jit.id('inner_rel').style.height =="100px"){
         document.getElementById('filter_button').click();
     }
@@ -104,23 +108,23 @@ function get_tag(){
         "tag" : tag
     };
     
-    $.ajax( {
-           type: "POST",
-           url: "http://localhost:8888/PWeb_Project/API/search_tag.php",
-           data: myData,
-           success: function(msg){
-           json_results=jQuery.parseJSON(msg);
-           },
-           error: function(err) {
-           alert('error tag!');
-           },
-           complete: function(){
-           $jit.id('res').innerHTML = 'Results for "' +tag+'":';
-           for (var k in json_results)
-           $jit.id('inner-list').innerHTML += "<button type='button' class='btn btn-default' onclick=init("+json_results[k].id+")>"+ json_results[k].name + "</button>";
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8888/PWeb_Project/API/search_tag.php",
+        data: myData,
+        success: function(msg){
+            json_results=jQuery.parseJSON(msg);
+        },
+        error: function(err) {
+            alert('error tag!');
+        },
+        complete: function(){
+            $jit.id('res').innerHTML = 'Results for "' +tag+'":';
+            for (var k in json_results)
+                $jit.id('inner-list').innerHTML += "<button type='button' class='btn btn-default' onclick=init("+json_results[k].id+")>"+ json_results[k].name + "</button>";
            
-           if(json_results.length == 0) 
-           $jit.id('inner-list').innerHTML = no_results;
-           }
-           });
+            if(json_results.length == 0) 
+            $jit.id('inner-list').innerHTML = no_results;
+        }
+    });
 }

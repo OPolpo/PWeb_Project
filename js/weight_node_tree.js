@@ -99,7 +99,7 @@ function init_tree(){
 }
 
 function init(id){
-    $jit.id('infovis').innerHTML = '<div id ="loading"><img src="resource/loading.gif"/></div>';
+    showLoading();
     if(id!=null){
         var myData = {
             "id" : id,
