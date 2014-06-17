@@ -6,7 +6,6 @@
 var labelType, useGradients, nativeTextSupport, animate;
 var json_results;
 
-var height_high = "155px";
 var height_low = "55px";
 
 (function() {
@@ -29,22 +28,24 @@ function showLoading(){
 
 function info_up(){
     if($jit.id('root-container').style.height == height_low){
-        $( "#root-container" ).animate({height: height_high}, 700);
-        $( "#inner-list" ).animate({height: height_high}, 700);
+        $( "#root-container" ).animate({height: "150"}, 700);
+        $( "#inner-list" ).animate({height: "280"}, 700);
+        $jit.id('inner-details').style.display="table";
     }
 }
 
 function info_down(){
-    if($jit.id('root-container').style.height == height_high){
+    if($jit.id('root-container').style.height != height_low){
         $( "#root-container" ).animate({height: height_low}, 700);
-        $( "#inner-list" ).animate({height: height_low}, 700);
+        $( "#inner-list" ).animate({height: "375"}, 700);
+        $jit.id('inner-details').style.display="none";
     }
 }
 
 function info_toggle(){
     if($jit.id('root-container').style.height == height_low)
         info_up();
-    if($jit.id('root-container').style.height == height_high)
+    if($jit.id('root-container').style.height != height_low)
         info_down();
 }
 
@@ -83,9 +84,11 @@ function get_property(id){
             alert('error!');
         },
         complete: function(){
-            $jit.id('inner-details').innerHTML ="";
-            for (var k in json_property)
-                $jit.id('inner-details').innerHTML += json_property[k].p_name +":  " + json_property[k].p_value + "<br><br>";
+            $jit.id('inner-details').innerHTML = "<dl>";
+            for (var k in json_property){
+                $jit.id('inner-details').innerHTML += "<dt><h3>"+json_property[k].p_name +":</h3></dt><dd>" + json_property[k].p_value + "</dd>";
+                }
+            $jit.id('inner-details').innerHTML += "</dl>"; 
         }
     });
     
