@@ -27,7 +27,7 @@ function showLoading(){
 
 function sale(){
     var height_low = "55px";
-    if($jit.id('root-container').style.height == height_low){
+    //if($jit.id('root-container').style.height == height_low){
         if($jit.id('root-container').style.height == height_low){
             $( "#root-container" ).animate({
                                            height: "150"
@@ -35,6 +35,7 @@ function sale(){
             $( "#inner-list" ).animate({
                                        height: "280"
                                        }, 700);
+            $jit.id('inner-details').style.display="table";
         }else{
             $( "#root-container" ).animate({
                                            height: height_low
@@ -42,8 +43,9 @@ function sale(){
             $( "#inner-list" ).animate({
                                        height: "375"
                                        }, 700);
+            $jit.id('inner-details').style.display="none";
         }
-    }
+    //}
 }
 
 function filter(){
@@ -80,9 +82,11 @@ function get_property(id){
             alert('error!');
         },
         complete: function(){
-            $jit.id('inner-details').innerHTML ="";
-            for (var k in json_property)
-                $jit.id('inner-details').innerHTML += json_property[k].p_name +":  " + json_property[k].p_value + "<br><br>";
+            $jit.id('inner-details').innerHTML = "<dl>";
+            for (var k in json_property){
+                $jit.id('inner-details').innerHTML += "<dt><h3>"+json_property[k].p_name +":</h3></dt><dd>" + json_property[k].p_value + "</dd>";
+                }
+            $jit.id('inner-details').innerHTML += "</dl>"; 
         }
     });
     
