@@ -1,6 +1,57 @@
-ciao
-ciao 
 
-ioioioioio
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Saint Seiya Ω</title>
 
-faccio cose a caso #2
+<!-- CSS Files -->
+<link type="text/css" href="./CSS/saint_seiya.css" rel="stylesheet" /> 
+
+<!-- Library File -->
+<script language="javascript" type="text/javascript" src="./libs/jit_modified.js"></script>
+<script language="javascript" type="text/javascript" src="./libs/jquery-1.5.1.js"></script>
+
+<!-- JS -->
+<script language="javascript" type="text/javascript" src="./js/weight_node_tree.js"></script>
+<!-- <script language="javascript" type="text/javascript" src="./js/saint_seiya.js"></script> -->
+</head>
+
+<body onload="init(null);">
+	
+	<div id="intestazione"> Saint Seiya Ω </div>
+
+	<div class="form" id="form_search">
+		<input type="text" class="form-control" placeholder="Search..." id="search" value="" onkeydown="if (event.keyCode == 13) document.getElementById('search_button').click()">
+		<button type="submit" id="search_button" class="btn btn-primary" onclick="get_tag()">Search</button>
+		<div id="filter-container">
+			<button id="filter_button" class="btn btn-primary" onclick="filter()">Filter &#9660; </span></button> <br>
+			<div id="inner_rel"> 
+				<div class="check" id="c1"><input type='checkbox' name="family" checked='true'> Family</input></div><br> 
+				<div class="check" id="c2"><input type='checkbox' name="friends" checked='true'> Friends</input></div><br>
+				<div class="check" id="c3"><input type='checkbox' name="colleagues" checked='true'> Colleagues</input></div>  
+			</div>
+		</div>
+
+	</div>
+	<br>
+	<div id="container">
+		<div id="center-container" >
+	    	<div id="infovis" ></div> 
+		</div>
+
+		<div id="right-container">
+			<h2 id="res">Results:</h2>
+			<div id="inner-list" class="btn-group-vertical" style="height: 375px;">
+				<button type='button' class='btn btn-default' disabled='disabled'>No results...</button>
+			</div>	
+			
+			<div id="root-container" onclick="sale()" style="height: 55px;">
+
+				<h2 id="h2_root">Root Info</h2>
+				<div id="inner-details"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
