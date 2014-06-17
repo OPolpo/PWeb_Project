@@ -34,9 +34,7 @@ function init_tree(){
             domElement.onclick = function(){
                 get_property(node.id);
                 rgraph.onClick(node.id);
-                if($jit.id('root-container').style.height =="55px"){
-                   sale();
-                }
+                info_up();
             };
         },
         //Change some label dom properties.
@@ -47,18 +45,18 @@ function init_tree(){
             style.cursor = 'pointer';
             
             if (node._depth == 0) {
-               style.fontSize = "2em";
-               style.color = "#B87333";
+                style.fontSize = "2em";
+                style.color = "#B87333";
             } else if(node._depth == 1){
-               style.fontSize = "1em";
-               style.color = "#556832";
+                style.fontSize = "1em";
+                style.color = "#556832";
             
             } else if(node._depth == 2){
-               style.fontSize = "0.7em";
-               style.color = "#800000";
+                style.fontSize = "0.7em";
+                style.color = "#800000";
             
             } else {
-               style.display = 'none';
+                style.display = 'none';
             }
             
             var left = parseInt(style.left);
@@ -109,26 +107,23 @@ function init(id){
             "colleagues" : (($('#c3>input').is(':checked')) ? 1 : 0)
         };
         $.ajax( {
-               type: "POST",
-               url: "http://localhost:8888/PWeb_Project/API/get_data.php",
-               data: myData,
-               success: function(msg){
-               //alert(msg);
-               json=jQuery.parseJSON(msg);
-               },
-               error: function(err) {
-               alert('error!');
-               },
-               complete: function() {
-               $jit.id('loading').innerHTML = '';
-               init_tree();
-               
-               if($jit.id('root-container').style.height =="55px"){
-               sale();
-               }
-               
-               }
-               });
+            type: "POST",
+            url: "http://localhost:8888/PWeb_Project/API/get_data.php",
+            data: myData,
+            success: function(msg){
+                //alert(msg);
+                json=jQuery.parseJSON(msg);
+            },
+            error: function(err) {
+                alert('error!');
+            },
+            complete: function() {
+                $jit.id('loading').innerHTML = '';
+                init_tree();
+            
+                info_up();
+            }
+            });
         get_property(id);
     }
 }

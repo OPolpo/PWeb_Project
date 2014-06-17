@@ -6,13 +6,15 @@
 var labelType, useGradients, nativeTextSupport, animate;
 var json_results;
 
+var height_high = "155px";
+var height_low = "55px";
+
 (function() {
  var ua = navigator.userAgent,
  iStuff = ua.match(/iPhone/i) || ua.match(/iPad/i),
  typeOfCanvas = typeof HTMLCanvasElement,
  nativeCanvasSupport = (typeOfCanvas == 'object' || typeOfCanvas == 'function'),
- textSupport = nativeCanvasSupport
- && (typeof document.createElement('canvas').getContext('2d').fillText == 'function');
+ textSupport = nativeCanvasSupport && (typeof document.createElement('canvas').getContext('2d').fillText == 'function');
  //I'm setting this based on the fact that ExCanvas provides text support for IE
  //and that as of today iPhone/iPad current text support is lame
  labelType = (!nativeCanvasSupport || (textSupport && !iStuff))? 'Native' : 'HTML';
@@ -25,26 +27,27 @@ function showLoading(){
     $jit.id('infovis').innerHTML = '<div id ="loading"><img src="resource/loading.gif"/></div>';
 }
 
-function sale(){
-    var height_low = "55px";
+function info_up(){
     if($jit.id('root-container').style.height == height_low){
-        if($jit.id('root-container').style.height == height_low){
-            $( "#root-container" ).animate({
-                                           height: "150"
-                                           }, 700);
-            $( "#inner-list" ).animate({
-                                       height: "280"
-                                       }, 700);
-        }else{
-            $( "#root-container" ).animate({
-                                           height: height_low
-                                           }, 700);
-            $( "#inner-list" ).animate({
-                                       height: "375"
-                                       }, 700);
-        }
+        $( "#root-container" ).animate({height: height_high}, 700);
+        $( "#inner-list" ).animate({height: height_high}, 700);
     }
 }
+
+function info_down(){
+    if($jit.id('root-container').style.height == height_high){
+        $( "#root-container" ).animate({height: height_low}, 700);
+        $( "#inner-list" ).animate({height: height_low}, 700);
+    }
+}
+
+function info_toggle(){
+    if($jit.id('root-container').style.height == height_low)
+        info_up();
+    if($jit.id('root-container').style.height == height_high)
+        info_down();
+}
+
 
 function filter(){
     if($jit.id('inner_rel').style.height =="0px" || $jit.id('inner_rel').style.height ==0){
