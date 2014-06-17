@@ -1,4 +1,9 @@
 <?php
+/*
+ * Author: Andrea F. Bocchese, Maria Celeste Grandi
+ * Description: This Script return all property if a specified entity
+ */
+
 $mysql_db_hostname = "localhost";
 $mysql_db_user = "webuser";
 $mysql_db_password = "dummypass";

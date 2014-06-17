@@ -1,4 +1,11 @@
 <?php
+/*
+ * Author: Andrea F. Bocchese, Maria Celeste Grandi
+ * Description: This Script return a json object with contains the info to build the node tree,
+ * you must specify the entyty, the level of depth (how many time computes the sons of sons),
+ * and the criterion of similarity (type of similarity to take in consideration).
+ */
+
 $mysql_db_hostname = "localhost";
 $mysql_db_user = "webuser";
 $mysql_db_password = "dummypass";
