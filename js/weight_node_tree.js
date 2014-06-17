@@ -106,7 +106,7 @@ function init(id){
             "depth" : "2",
             "family" : (($('#c1>input').is(':checked')) ? 1 : 0),
             "friends" : (($('#c2>input').is(':checked')) ? 1 : 0),
-            "collleagues" : (($('#c3>input').is(':checked')) ? 1 : 0)
+            "colleagues" : (($('#c3>input').is(':checked')) ? 1 : 0)
         };
         $.ajax( {
                type: "POST",

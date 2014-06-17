@@ -11,19 +11,18 @@ $mysql_db_user = "webuser";
 $mysql_db_password = "dummypass";
 $mysql_db_database = "p_web";
 
-//ini_set("display_errors",1);
-
-$id = $_POST["id"];
-$depth = $_POST["depth"];
-$family = $_POST["family"];
-$friends = $_POST["friends"];
-$colleagues = $_POST["colleagues"];
-
+ini_set("display_errors",1);
 
 $con = @mysqli_connect($mysql_db_hostname, $mysql_db_user, $mysql_db_password, $mysql_db_database);
 if (!$con){
 	trigger_error('Could not connect to MySQL: ' . mysqli_connect_error());
 }
+
+$id_to_search=mysqli_escape_string($con, $_POST["id"]);
+$depth=mysqli_escape_string($con, $_POST["depth"]);
+$family=mysqli_escape_string($con, $_POST["family"]);
+$friends=mysqli_escape_string($con, $_POST["friends"]);
+$colleagues=mysqli_escape_string($con, $_POST["colleagues"]);
 
 function get_name_by_id($id_to_search){
 	global $con;
@@ -63,9 +62,10 @@ function query_get_child($id_to_search){
 
 }
 
-
-function get_node($id_to_search, $weight, $father){
+function get_node($id_to_search, $weight, $father, $depth){
 	global $con;
+	$json='';
+	
 	$name = get_name_by_id($id_to_search);
 	$json = '{"id":"'.$id_to_search.'",';
 	$json = $json.'"name":"'.$name.'",';
@@ -73,74 +73,24 @@ function get_node($id_to_search, $weight, $father){
 	$json = $json.'"children":[';
 	
 	$child = array();
-
+	
 	$sql_get_child = query_get_child($id_to_search);
 
 	$result = mysqli_query($con, $sql_get_child);
-	if(mysqli_num_rows($result)>0){
-		while ($obj = mysqli_fetch_object($result)){
-			$child[] = $obj;
-		}
-		foreach($child as $row){
-			if ($row->id != $father){
-				$id_child = $row->id;
-				$name_child=get_name_by_id($id_child);
-				$my_weight_child = $row->my_weight;
-				$json = $json.'{"id":"'.$id_child.'","name":"'.$name_child.'","data":{"my_weight":'.$my_weight_child.'},"children":[]},';
-			}
-		}
-		if (substr($json,-1,1)==',')
-			$json = substr($json,0,-1).']},';
-		else
-			$json = $json.']},';
-	}
-	return $json;
-}
-
-function get_node_recursive($id_to_search, $weight, $father, $depth){
-	global $con;
-	$json='';
 	if ($depth > 0){
-		$name = get_name_by_id($id_to_search);
-		$json = '{"id":"'.$id_to_search.'",';
-		$json = $json.'"name":"'.$name.'",';
-		$json = $json.'"data":{"my_weight":"'.$weight.'"},';
-		$json = $json.'"children":[';
-	
-		$child = array();
-		
-		$sql_get_child = query_get_child($id_to_search);
-
-		$result = mysqli_query($con, $sql_get_child);
 		if(mysqli_num_rows($result)>0){
-			while ($obj = mysqli_fetch_object($result)){
-				$child[] = $obj;
-			}
-			foreach($child as $row){
+			while ($obj = mysqli_fetch_object($result))
+		 		$child[] = $obj;
+			foreach($child as $row)
 				if ($row->id != $father)
-					$json=$json.get_node_recursive($row->id, $row->my_weight, $id_to_search, $depth-1);
-			}
+					$json=$json.get_node($row->id, $row->my_weight, $id_to_search, $depth-1).",";
+			if (substr($json,-1,1)==',')
+				$json = substr($json,0,-1);
 		}
-		if (substr($json,-1,1)==',')
-			$json = substr($json,0,-1).']},';
-		else
-			$json = $json.']},';
 	}
-	else
-		$json=$json.get_node($id_to_search, $weight, $father);
-
+	$json = $json.']}';
 	return $json;
 }
 
-function get_node_to_depth($id_to_search, $depth){
-	global $con, $family, $friends, $colleagues;
-	$id_to_search=mysqli_escape_string($con, $id_to_search);
-	$depth=mysqli_escape_string($con, $depth);
-	$family=mysqli_escape_string($con, $family);
-	$friends=mysqli_escape_string($con, $friends);
-	$colleagues=mysqli_escape_string($con, $colleagues);
-	return substr(get_node_recursive($id_to_search,1,$id_to_search,$depth),0,-1);
-}
-
-echo get_node_to_depth($id, $depth);
+echo get_node($id_to_search,1,$id_to_search,$depth);
 ?>
