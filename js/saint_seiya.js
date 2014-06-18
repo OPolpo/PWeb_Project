@@ -31,6 +31,7 @@ function info_up(){
         $( "#root-container" ).animate({height: "150"}, 700);
         $( "#inner-list" ).animate({height: "280"}, 700);
         $jit.id('inner-details').style.display="table";
+        $jit.id('arrow_img').src="resource/down.png";
     }
 }
 
@@ -39,6 +40,7 @@ function info_down(){
         $( "#root-container" ).animate({height: height_low}, 700);
         $( "#inner-list" ).animate({height: "375"}, 700);
         $jit.id('inner-details').style.display="none";
+        $jit.id('arrow_img').src="resource/up.png";
     }
 }
 
