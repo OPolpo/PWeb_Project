@@ -26,12 +26,21 @@ function showLoading(){
     $jit.id('infovis').innerHTML = '<div id ="loading"><img src="resource/loading.gif"/></div>';
 }
 
+function turn_arrow(degrees){
+    $('#arrow_img').animate({  borderSpacing: degrees }, {
+        step: function(now,fx) {
+          $(this).css('-webkit-transform','rotate('+now+'deg)'); 
+        },
+        duration:700
+    });
+}
+
 function info_up(){
     if($jit.id('root-container').style.height == height_low){
         $( "#root-container" ).animate({height: "150"}, 700);
         $( "#inner-list" ).animate({height: "280"}, 700);
         $jit.id('inner-details').style.display="table";
-        $jit.id('arrow_img').src="resource/down.png";
+        turn_arrow('+180');
     }
 }
 
@@ -40,7 +49,7 @@ function info_down(){
         $( "#root-container" ).animate({height: height_low}, 700);
         $( "#inner-list" ).animate({height: "375"}, 700);
         $jit.id('inner-details').style.display="none";
-        $jit.id('arrow_img').src="resource/up.png";
+        turn_arrow('-180');
     }
 }
 
