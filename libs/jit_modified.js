@@ -15947,8 +15947,8 @@ $jit.RGraph = new Class( {
     var ld = this.config.levelDistance;
     return function(elem){
       //alert (elem.data.my_weight);
-      return ((elem._depth + 1)*50 + (1/(elem._depth*elem.data.my_weight))*10); // MODIFIED
-      //return ((elem._depth + 1) * 50);
+      //return ((elem._depth + 1)*50 + (1/(elem._depth*elem.data.my_weight))*10); // MODIFIED
+      return ((elem._depth + 1) * 50);
     };
   },
 
