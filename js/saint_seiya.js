@@ -148,13 +148,16 @@ function get_tag(){
 
 function init(id){
     showLoading();
+    var similarity_options = [];
+    similarity_options[0] = (($('#c1>input').is(':checked')) ? 1 : -1);
+    similarity_options[1] = (($('#c2>input').is(':checked')) ? 2 : -1);
+    similarity_options[2] = (($('#c3>input').is(':checked')) ? 3 : -1);
+
     if(id!=null){
         var myData = {
             "id" : id,
             "depth" : "3",
-            "family" : (($('#c1>input').is(':checked')) ? 1 : 0),
-            "friends" : (($('#c2>input').is(':checked')) ? 1 : 0),
-            "colleagues" : (($('#c3>input').is(':checked')) ? 1 : 0)
+            "similarity" : JSON.stringify(similarity_options)
         };
         $.ajax( {
             type: "POST",

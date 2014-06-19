@@ -11,7 +11,7 @@ $mysql_db_user = "webuser";
 $mysql_db_password = "dummypass";
 $mysql_db_database = "p_web";
 
-ini_set("display_errors",1);
+//ini_set("display_errors",1);
 
 $con = @mysqli_connect($mysql_db_hostname, $mysql_db_user, $mysql_db_password, $mysql_db_database);
 if (!$con){
@@ -20,9 +20,17 @@ if (!$con){
 
 $id_to_search=mysqli_escape_string($con, $_POST["id"]);
 $depth=mysqli_escape_string($con, $_POST["depth"]);
-$family=mysqli_escape_string($con, $_POST["family"]);
-$friends=mysqli_escape_string($con, $_POST["friends"]);
-$colleagues=mysqli_escape_string($con, $_POST["colleagues"]);
+
+$similarity=json_decode($_POST['similarity']);
+$len_similarity = count($similarity);
+
+// this is just to be sure that no one inject code
+for($i=0; $i<$len_similarity; $i++){
+	if($similarity[$i]>=0)
+		$similarity[$i] = mysqli_escape_string($con, $similarity[$i]);
+	else
+		$similarity[$i] = -1;
+}
 
 function get_name_by_id($id_to_search){
 	global $con;
@@ -38,21 +46,16 @@ function get_name_by_id($id_to_search){
 
 function query_get_child($id_to_search){
 
-	global $family, $friends, $colleagues;
+	global $similarity, $len_similarity;
 
-	$search_option = "";
-	if($family)
-		$search_option = $search_option.' id_criterion="1" ';
-	else
-		$search_option = $search_option." false ";
-	if($friends)
-		$search_option = $search_option.' OR id_criterion="2" ';
-	else
-		$search_option = $search_option." OR false ";
-	if($colleagues)
-		$search_option = $search_option.' OR id_criterion="3" ';
-	else
-		$search_option = $search_option." OR false ";
+	$search_option = "false ";
+
+	for($i=0; $i<$len_similarity; $i++){
+		if($similarity[$i]>=0)
+			$search_option = $search_option.'OR id_criterion="'.$similarity[$i].'" ';
+		else
+			$search_option = $search_option."OR false ";
+	}
 
 	$sql_get_child_pt1 = "SELECT id_entityend AS id, similarity.value AS my_weight FROM similarity WHERE id_entitystart=".'"'.$id_to_search.'"'."AND (".$search_option.")";
 	$sql_get_child_pt2 = "SELECT id_entitystart AS id, similarity.value AS my_weight FROM similarity WHERE id_entityend=".'"'.$id_to_search.'"'."AND (".$search_option.")";
