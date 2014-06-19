@@ -63,19 +63,21 @@ a {
   position:relative;
   width: auto;
   float: left;
+  z-index: 2;
 }
 
 #inner_rel{
-    position:relative;
+    position:absolute;
     float:left;
     text-align: left;
     height:0px;
-    width: auto;
+    width: 120px;
     z-index: 2;
     margin-left: 4px;
+    margin-top: 50px;
     border-radius: 4px;
     background-color: #F0F8FF;
-    margin-top: 2px;
+    margin-top: 24px;
     overflow: none;
 }
 
@@ -158,6 +160,7 @@ a {
     height:500px;
     margin:auto;
     overflow:hidden;
+    z-index:1;
 }
 #loading{
     width:100px;
@@ -333,6 +336,11 @@ textarea.form-control {
   border-color: #285e8e;
 }
 
+#search_button{
+  position: relative;
+  margin-left: 110px;
+}
+
 .checkbox {
   display: block;
   min-height: 20px;
@@ -367,42 +375,65 @@ textarea.form-control {
 }
 
 .onoffswitch {
-    position: relative; width: 100px;
-    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    position: absolute; 
+    width: 100px;
+    margin-left: 565px;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select: none;
 }
 .onoffswitch-checkbox {
     display: none;
 }
 .onoffswitch-label {
-    display: block; overflow: hidden; cursor: pointer;
-    border: 2px solid #357EBD; border-radius: 4px;
+    display: block; 
+    overflow: hidden; 
+    cursor: pointer;
+    border: 2px solid #357EBD; 
+    border-radius: 4px;
 }
 .onoffswitch-inner {
-    display: block; width: 200%; margin-left: -100%;
+    display: block; 
+    width: 200%; 
+    margin-left: -100%;
     -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
     -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
 }
 .onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block; float: left; width: 50%; height: 48px; padding: 0; line-height: 48px;
-    font-size: 16px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    display: block; 
+    float: left; 
+    width: 50%; 
+    height: 47px; 
+    padding: 0; 
+    line-height: 47px;
+    font-size: 16px; 
+    color: white; 
     -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
 .onoffswitch-inner:before {
     content: "TAG";
     padding-left: 10px;
-    background-color: #428BCA; color: #FFFFFF;
+    text-align: left;
+    background-color: #428BCA; 
+    color: #FFFFFF;
 }
 .onoffswitch-inner:after {
     content: "ALL";
     padding-right: 10px;
-    background-color: #428BCA; color: #FFFFFF;
+    background-color: #428BCA; 
+    color: #FFFFFF;
     text-align: right;
 }
 .onoffswitch-switch {
-    display: block; width: 32px; margin: 8px;
+    display: block; width: 32px; 
+    margin: 8px;
     background: #FFFFFF;
-    border: 2px solid #357EBD; border-radius: 4px;
-    position: absolute; top: 0; bottom: 0; right: 48px;
+    border: 2px solid #357EBD; 
+    border-radius: 4px;
+    position: absolute; 
+    top: 0; 
+    bottom: 0; 
+    right: 46px;
     -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
     -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
 }
@@ -411,4 +442,15 @@ textarea.form-control {
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px; 
+}
+
+#filter_button{
+  margin-right: 15px;
+  height: 38px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #23A4FF;
+  border: 0px;
+  z-index:3;
+  position:relative;
 }
