@@ -95,35 +95,3 @@ function init_tree(){
                       duration: 2000
                       }); 
 }
-
-function init(id){
-    showLoading();
-    if(id!=null){
-        var myData = {
-            "id" : id,
-            "depth" : "2",
-            "family" : (($('#c1>input').is(':checked')) ? 1 : 0),
-            "friends" : (($('#c2>input').is(':checked')) ? 1 : 0),
-            "colleagues" : (($('#c3>input').is(':checked')) ? 1 : 0)
-        };
-        $.ajax( {
-            type: "POST",
-            url: "http://localhost:8888/PWeb_Project/API/get_data.php",
-            data: myData,
-            success: function(msg){
-                //alert(msg);
-                json=jQuery.parseJSON(msg);
-            },
-            error: function(err) {
-                alert('error!');
-            },
-            complete: function() {
-                $jit.id('loading').innerHTML = '';
-                init_tree();
-            
-                info_up();
-            }
-            });
-        get_property(id);
-    }
-}
