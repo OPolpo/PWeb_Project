@@ -14,9 +14,8 @@ $mysql_db_database = "p_web";
 //ini_set("display_errors",1);
 
 $con = @mysqli_connect($mysql_db_hostname, $mysql_db_user, $mysql_db_password, $mysql_db_database);
-if (!$con){
+if (!$con)
 	trigger_error('Could not connect to MySQL: ' . mysqli_connect_error());
-}
 
 $id_to_search=mysqli_escape_string($con, $_POST["id"]);
 $depth=mysqli_escape_string($con, $_POST["depth"]);
@@ -24,12 +23,13 @@ $depth=mysqli_escape_string($con, $_POST["depth"]);
 $similarity=json_decode($_POST['similarity']);
 $len_similarity = count($similarity);
 
-// this is just to be sure that no one inject code
+$search_option = "false ";
+
 for($i=0; $i<$len_similarity; $i++){
 	if($similarity[$i]>=0)
-		$similarity[$i] = mysqli_escape_string($con, $similarity[$i]);
+		$search_option = $search_option.'OR id_criterion="'.mysqli_escape_string($con, $similarity[$i]).'" ';
 	else
-		$similarity[$i] = -1;
+		$search_option = $search_option."OR false ";
 }
 
 function get_name_by_id($id_to_search){
@@ -41,28 +41,16 @@ function get_name_by_id($id_to_search){
 	else
 		$name="NAME_ERROR_".sizeof($name)."_NAME_EXIST";
 	return $name;
-
 }
 
 function query_get_child($id_to_search){
-
-	global $similarity, $len_similarity;
-
-	$search_option = "false ";
-
-	for($i=0; $i<$len_similarity; $i++){
-		if($similarity[$i]>=0)
-			$search_option = $search_option.'OR id_criterion="'.$similarity[$i].'" ';
-		else
-			$search_option = $search_option."OR false ";
-	}
+	global $search_option;
 
 	$sql_get_child_pt1 = "SELECT id_entityend AS id, similarity.value AS my_weight FROM similarity WHERE id_entitystart=".'"'.$id_to_search.'"'."AND (".$search_option.")";
 	$sql_get_child_pt2 = "SELECT id_entitystart AS id, similarity.value AS my_weight FROM similarity WHERE id_entityend=".'"'.$id_to_search.'"'."AND (".$search_option.")";
 	$sql_get_child = $sql_get_child_pt1." UNION ".$sql_get_child_pt2.";";
 	
 	return $sql_get_child;
-
 }
 
 function get_node($id_to_search, $weight, $father, $depth){
@@ -76,10 +64,9 @@ function get_node($id_to_search, $weight, $father, $depth){
 	$json = $json.'"children":[';
 	
 	$child = array();
-	
 	$sql_get_child = query_get_child($id_to_search);
-
 	$result = mysqli_query($con, $sql_get_child);
+
 	if ($depth > 0){
 		if(mysqli_num_rows($result)>0){
 			while ($obj = mysqli_fetch_object($result))
@@ -91,6 +78,7 @@ function get_node($id_to_search, $weight, $father, $depth){
 				$json = substr($json,0,-1);
 		}
 	}
+	
 	$json = $json.']}';
 	return $json;
 }
