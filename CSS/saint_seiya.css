@@ -81,10 +81,8 @@ a {
 
 #right-container, 
 #center-container{
-    height: -moz-calc(100vh - 100px);
-    height: -webkit-calc(100vh - 100px);
-    height: calc(100vh - 100px);
-    
+    height: 70vh;
+
     position:absolute;
     margin: 20px;
     margin-top: 15px;
