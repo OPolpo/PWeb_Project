@@ -24,7 +24,7 @@
 	<div class="form" id="form_search">
 		<input type="text" class="form-control" placeholder="Search..." id="search" value="" onkeydown="if (event.keyCode == 13) document.getElementById('search_button').click()">
 		<div class="onoffswitch">
-    		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+    		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" onclick="redo_search()" checked>
    			<label class="onoffswitch-label" for="myonoffswitch">
         	<span class="onoffswitch-inner"></span>
         	<span class="onoffswitch-switch"></span>

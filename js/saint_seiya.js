@@ -5,6 +5,8 @@
 
 var labelType, useGradients, nativeTextSupport, animate;
 var json_results;
+var to_search = -1;
+var no_results="<button type='button' class='btn btn-default' disabled='disabled'>No results...</button>";
 
 var height_low = "55px";
 
@@ -111,22 +113,34 @@ function search(){
         document.getElementById('filter_button').click();
     }
 
+    if(document.getElementById('search').value.length == 0) {
+         $jit.id('res').innerHTML = "Results:";
+         $jit.id('inner-list').innerHTML = no_results
+         return;
+    }
+    to_search = document.getElementById('search').value;
     if($('#myonoffswitch').is(':checked'))
-        search_in_tag();
+        search_in_tag(to_search);
     else
-        search_in_property();
+        search_in_property(to_search);
 }
 
-function search_in_property(){
+function redo_search(){
+    if (to_search != -1)
+        if($('#myonoffswitch').is(':checked'))
+            search_in_tag(to_search);
+        else
+            search_in_property(to_search);
+}
 
-    var property=document.getElementById('search').value;
+function search_in_property(search){
+
     document.getElementById('search').value="";
-    var no_results="<button type='button' class='btn btn-default' disabled='disabled'>No results...</button>";
     
     $jit.id('inner-list').innerHTML = "";
     
     var myData = {
-        "q" : property
+        "q" : search
     };
     
     $.ajax({
@@ -140,7 +154,7 @@ function search_in_property(){
             alert('error search!');
         },
         complete: function(){
-            print_search(json_results, property);
+            print_search(json_results, search);
         }
     });
 }
@@ -153,15 +167,13 @@ function print_search(json_results, query){
         $jit.id('inner-list').innerHTML = no_results;
 }
 
-function search_in_tag(){
-    var tag=document.getElementById('search').value;
+function search_in_tag(search){
     document.getElementById('search').value="";
-    var no_results="<button type='button' class='btn btn-default' disabled='disabled'>No results...</button>";
     
     $jit.id('inner-list').innerHTML = "";
     
     var myData = {
-        "tag" : tag
+        "tag" : search
     };
     
     $.ajax({
@@ -175,7 +187,7 @@ function search_in_tag(){
             alert('error tag!');
         },
         complete: function(){
-            print_search(json_results, tag);
+            print_search(json_results, search);
         }
     });
 }
