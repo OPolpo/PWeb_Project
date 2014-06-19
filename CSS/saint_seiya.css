@@ -81,7 +81,10 @@ a {
 
 #right-container, 
 #center-container{
-    height:500px;
+    height: -moz-calc(100vh - 100px);
+    height: -webkit-calc(100vh - 100px);
+    height: calc(100vh - 100px);
+    
     position:absolute;
     margin: 20px;
     margin-top: 15px;
@@ -121,7 +124,9 @@ a {
 }
 
 #center-container {
-    width:600px;
+    width: -moz-calc(100% - 500px);
+    width: -webkit-calc(100% - 500px);
+    width: calc(100% - 500px);
     background-color:#fff;
 }
 
