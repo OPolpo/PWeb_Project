@@ -9,6 +9,7 @@ var to_search = -1;
 var no_results="<button type='button' class='btn btn-default' disabled='disabled'>No results...</button>";
 
 var height_low = "55px";
+var is_low = 1;
 
 (function() {
  var ua = navigator.userAgent,
@@ -38,27 +39,29 @@ function turn_arrow(degrees){
 }
 
 function info_up(){
-    if($jit.id('root-container').style.height == height_low){
+    if(is_low == 1){
         $( "#root-container" ).animate({height: "150"}, 700);
         $( "#inner-list" ).animate({height: "280"}, 700);
         $jit.id('inner-details').style.display="table";
         turn_arrow('+180');
+        is_low=0;
     }
 }
 
 function info_down(){
-    if($jit.id('root-container').style.height != height_low){
+    if(is_low == 0){
         $( "#root-container" ).animate({height: height_low}, 700);
         $( "#inner-list" ).animate({height: "375"}, 700);
         $jit.id('inner-details').style.display="none";
         turn_arrow('0');
+        is_low=1;
     }
 }
 
 function info_toggle(){
-    if($jit.id('root-container').style.height == height_low)
+    if(is_low == 1)
         info_up();
-    if($jit.id('root-container').style.height != height_low)
+    else
         info_down();
 }
 
