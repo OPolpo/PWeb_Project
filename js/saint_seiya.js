@@ -49,7 +49,7 @@ function info_down(){
         $( "#root-container" ).animate({height: height_low}, 700);
         $( "#inner-list" ).animate({height: "375"}, 700);
         $jit.id('inner-details').style.display="none";
-        turn_arrow('-180');
+        turn_arrow('0');
     }
 }
 
