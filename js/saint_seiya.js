@@ -105,21 +105,67 @@ function get_property(id){
     
 }
 
-function get_tag(){
+function search(){
     showLoading();
     if($jit.id('inner_rel').style.height =="100px"){
         document.getElementById('filter_button').click();
     }
+
+    if($('#myonoffswitch').is(':checked'))
+        search_in_tag();
+    else
+        search_in_property();
+}
+
+function search_in_property(){
+
+    var property=document.getElementById('search').value;
+    document.getElementById('search').value="";
+    var no_results="<button type='button' class='btn btn-default' disabled='disabled'>No results...</button>";
+    
+    $jit.id('inner-list').innerHTML = "";
+    // if(tag.length == 0) {
+    //     $jit.id('res').innerHTML = "Results:";
+    //     $jit.id('inner-list').innerHTML = no_results
+    //     return;
+    // }
+    
+    var myData = {
+        "q" : property
+    };
+    
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8888/PWeb_Project/API/search_property.php",
+        data: myData,
+        success: function(msg){
+            json_results=jQuery.parseJSON(msg);
+        },
+        error: function(err){
+            alert('error search!');
+        },
+        complete: function(){
+            $jit.id('res').innerHTML = 'Results for "' +q+'":';
+            for (var k in json_results)
+                $jit.id('inner-list').innerHTML += "<button type='button' class='btn btn-default' onclick=init("+json_results[k].id+")>"+ json_results[k].name + "</button>";
+           
+            if(json_results.length == 0) 
+            $jit.id('inner-list').innerHTML = no_results;
+        }
+    });
+}
+
+function search_in_tag(){
     var tag=document.getElementById('search').value;
     document.getElementById('search').value="";
     var no_results="<button type='button' class='btn btn-default' disabled='disabled'>No results...</button>";
     
     $jit.id('inner-list').innerHTML = "";
-    if(tag.length == 0) {
-        $jit.id('res').innerHTML = "Results:";
-        $jit.id('inner-list').innerHTML = no_results
-        return;
-    }
+    // if(tag.length == 0) {
+    //     $jit.id('res').innerHTML = "Results:";
+    //     $jit.id('inner-list').innerHTML = no_results
+    //     return;
+    // }
     
     var myData = {
         "tag" : tag
