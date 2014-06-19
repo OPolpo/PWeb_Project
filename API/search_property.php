@@ -19,7 +19,7 @@ if (!$con){
 
 function search($search){
  	global $con;
- 	$sql_search='SELECT value_property as name FROM entity_property WHERE id_property=1 AND id_entity IN (SELECT id_entity AS id FROM entity_property WHERE value_property LIKE "%'.$search.'%");';
+ 	$sql_search='SELECT value_property AS name, id_entity AS id FROM entity_property WHERE id_property=1 AND id_entity IN (SELECT id_entity AS id FROM entity_property WHERE value_property LIKE "%'.$search.'%");';
  	$id_list = array();
  	$result = mysqli_query($con, $sql_search);
  	while ($obj = mysqli_fetch_object($result))

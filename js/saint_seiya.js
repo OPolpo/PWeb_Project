@@ -124,11 +124,6 @@ function search_in_property(){
     var no_results="<button type='button' class='btn btn-default' disabled='disabled'>No results...</button>";
     
     $jit.id('inner-list').innerHTML = "";
-    // if(tag.length == 0) {
-    //     $jit.id('res').innerHTML = "Results:";
-    //     $jit.id('inner-list').innerHTML = no_results
-    //     return;
-    // }
     
     var myData = {
         "q" : property
@@ -145,14 +140,17 @@ function search_in_property(){
             alert('error search!');
         },
         complete: function(){
-            $jit.id('res').innerHTML = 'Results for "' +q+'":';
-            for (var k in json_results)
-                $jit.id('inner-list').innerHTML += "<button type='button' class='btn btn-default' onclick=init("+json_results[k].id+")>"+ json_results[k].name + "</button>";
-           
-            if(json_results.length == 0) 
-            $jit.id('inner-list').innerHTML = no_results;
+            print_search(json_results, property);
         }
     });
+}
+function print_search(json_results, query){
+    $jit.id('res').innerHTML = 'Results for "' +query+'":';
+    for (var k in json_results)
+        $jit.id('inner-list').innerHTML += "<button type='button' class='btn btn-default' onclick=init("+json_results[k].id+")>"+ json_results[k].name + "</button>";
+           
+    if(json_results.length == 0) 
+        $jit.id('inner-list').innerHTML = no_results;
 }
 
 function search_in_tag(){
@@ -161,11 +159,6 @@ function search_in_tag(){
     var no_results="<button type='button' class='btn btn-default' disabled='disabled'>No results...</button>";
     
     $jit.id('inner-list').innerHTML = "";
-    // if(tag.length == 0) {
-    //     $jit.id('res').innerHTML = "Results:";
-    //     $jit.id('inner-list').innerHTML = no_results
-    //     return;
-    // }
     
     var myData = {
         "tag" : tag
@@ -182,12 +175,7 @@ function search_in_tag(){
             alert('error tag!');
         },
         complete: function(){
-            $jit.id('res').innerHTML = 'Results for "' +tag+'":';
-            for (var k in json_results)
-                $jit.id('inner-list').innerHTML += "<button type='button' class='btn btn-default' onclick=init("+json_results[k].id+")>"+ json_results[k].name + "</button>";
-           
-            if(json_results.length == 0) 
-            $jit.id('inner-list').innerHTML = no_results;
+            print_search(json_results, tag);
         }
     });
 }
