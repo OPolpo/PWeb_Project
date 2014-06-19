@@ -146,14 +146,21 @@ function get_tag(){
     });
 }
 
+function re_init(){
+	if(rgraph != null)
+		init(rgraph.graph.getNode(rgraph.root).id);
+}
+
 function init(id){
     showLoading();
     var similarity_options = [];
+    // if true the value is the id of the similarity criterion in the database otherwise a negative value
     similarity_options[0] = (($('#c1>input').is(':checked')) ? 1 : -1);
     similarity_options[1] = (($('#c2>input').is(':checked')) ? 2 : -1);
     similarity_options[2] = (($('#c3>input').is(':checked')) ? 3 : -1);
 
     if(id!=null){
+    	var json;
         var myData = {
             "id" : id,
             "depth" : "3",
@@ -164,16 +171,14 @@ function init(id){
             url: "http://localhost:8888/PWeb_Project/API/get_data.php",
             data: myData,
             success: function(msg){
-                //alert(msg);
                 json=jQuery.parseJSON(msg);
             },
             error: function(err) {
                 alert('error!');
             },
             complete: function() {
-                $jit.id('loading').innerHTML = '';
-                init_tree();
-            
+                $jit.id('loading').innerHTML = '';	
+                init_tree(json);
                 info_up();
             }
             });

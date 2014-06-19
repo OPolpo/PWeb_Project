@@ -3,10 +3,26 @@
  * Description: This Script handle the visualization of the node tree.
  */
 
-var json;
+// ######## NODE ########
+var node_start_color = '#FFFFFF';
+var node_color = '#ddeeaa';
+var root_color = '#ffaa44';
+var edge_color = '#C12222';
 
-function init_tree(){
-    var rgraph = new $jit.RGraph({
+
+// ######## LABEL ########
+var root_label_color = '#B87333';
+var root_lable_font_size = '2em';
+
+var node_lable_1_color = '#556832';
+var node_lable_1_font_size = '1em';
+
+var node_lable_2_color = '#800000';
+var node_lable_2_font_size = '0.7em';
+
+var rgraph = null;
+function init_tree(json){
+    rgraph = new $jit.RGraph({
         //Where to append the visualization
         injectInto: 'infovis',
         
@@ -20,12 +36,12 @@ function init_tree(){
         //Set Node and Edge styles.
         Node: {
             overridable: true,
-            color: '#FFFFFF',
+            color: node_start_color,
             dim: 8
         },
         
         Edge: {
-            $color: '#C12222',
+            $color: edge_color,
             lineWidth:1.5
         },
         
@@ -45,15 +61,15 @@ function init_tree(){
             style.cursor = 'pointer';
             
             if (node._depth == 0) {
-                style.fontSize = "2em";
-                style.color = "#B87333";
+                style.fontSize = root_lable_font_size;
+                style.color = root_label_color;
             } else if(node._depth == 1){
-                style.fontSize = "1em";
-                style.color = "#556832";
+                style.fontSize = node_lable_1_font_size;
+                style.color = node_lable_1_color;
             
             } else if(node._depth == 2){
-                style.fontSize = "0.7em";
-                style.color = "#800000";
+                style.fontSize = node_lable_2_font_size;
+                style.color = node_lable_2_color;
             
             } else {
                 style.display = 'none';
@@ -75,9 +91,9 @@ function init_tree(){
             
             // COLOR
             if (node._depth == 0)
-               node.setData('color','#ffaa44','end');
+               node.setData('color',root_color,'end');
             else
-               node.setData('color','#ddeeaa','end');   
+               node.setData('color',node_color,'end');   
     }
 });
     
