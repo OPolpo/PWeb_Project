@@ -151,7 +151,7 @@ function init(id){
     if(id!=null){
         var myData = {
             "id" : id,
-            "depth" : "2",
+            "depth" : "3",
             "family" : (($('#c1>input').is(':checked')) ? 1 : 0),
             "friends" : (($('#c2>input').is(':checked')) ? 1 : 0),
             "colleagues" : (($('#c3>input').is(':checked')) ? 1 : 0)
