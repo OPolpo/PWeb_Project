@@ -9,7 +9,7 @@ $mysql_db_user = "webuser";
 $mysql_db_password = "dummypass";
 $mysql_db_database = "p_web";
 
-ini_set("display_errors",1);
+//ini_set("display_errors",1);
 
 $q = $_POST["q"];
 $con = @mysqli_connect($mysql_db_hostname, $mysql_db_user, $mysql_db_password, $mysql_db_database);
