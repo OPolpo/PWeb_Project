@@ -25,14 +25,18 @@ var is_low = 1;
  animate = !(iStuff || !nativeCanvasSupport);
  })();
 
-function showLoading(){
+function reset(){
+    info_down();
+    $jit.id('inner-details').innerHTML = "";
     $jit.id('infovis').innerHTML = '<div id ="loading"><img src="resource/loading.gif"/></div>';
 }
 
 function turn_arrow(degrees){
     $('#arrow_img').animate({  borderSpacing: degrees }, {
         step: function(now,fx) {
-          $(this).css('-webkit-transform','rotate('+now+'deg)'); 
+          $(this).css('-webkit-transform','rotate('+now+'deg)');
+          $(this).css('-moz-transform','rotate('+now+'deg)'); 
+          $(this).css('-ms-transform','rotate('+now+'deg)'); 
         },
         duration:700
     });
@@ -111,7 +115,7 @@ function get_property(id){
 }
 
 function search(){
-    showLoading();
+    reset();
     if($jit.id('inner_rel').style.height =="100px"){
         document.getElementById('filter_button').click();
     }
@@ -201,7 +205,7 @@ function re_init(){
 }
 
 function init(id){
-    showLoading();
+    reset();
     var similarity_options = [];
     // if true the value is the id of the similarity criterion in the database otherwise a negative value
     similarity_options[0] = (($('#c1>input').is(':checked')) ? 1 : -1);
