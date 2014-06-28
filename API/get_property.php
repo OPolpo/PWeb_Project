@@ -21,7 +21,7 @@ if (!$con){
 function get_elem_by_tag($id){
  	global $con;
  	mysqli_set_charset($con, 'utf8');
- 	$sql_get_property="SELECT id_entity AS id, value_property AS p_value, name_property AS p_name FROM p_web.entity_property JOIN property_type ON id_property=id where id_entity=".'"'.$id.'";';
+ 	$sql_get_property="SELECT id_entity AS id, value_property AS p_value, name_property AS p_name FROM entity_property JOIN property_type ON id_property=id where id_entity=".'"'.$id.'";';
 
  	$id_list = array();
  	$result = mysqli_query($con, $sql_get_property);
