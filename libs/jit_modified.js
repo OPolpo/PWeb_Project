@@ -11755,7 +11755,12 @@ Layouts.Radial = new Class({
           for ( var i=0, l=propArray.length; i < l; i++) {
             var pi = propArray[i];
 
-            if (child._depth > 2) // MODIFIED
+            var depth_to_visualize = 2; // MODIFIED
+            if(typeof(my_depth_to_visualize) != "undefined"){ // MODIFIED
+              depth_to_visualize = my_depth_to_visualize; // standard value // MODIFIED
+            } // MODIFIED
+
+            if (child._depth > depth_to_visualize) // MODIFIED
               child.setPos($P(child.getParents()[0].getPos('end').theta,child.getParents()[0].getPos('end').rho), pi); // MODIFIED
             else{ // MODIFIED
               child.setPos($P(theta, getLength(child)), pi); // MODIFIED

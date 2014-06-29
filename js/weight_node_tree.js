@@ -8,7 +8,7 @@ var node_start_color = '#FFFFFF';
 var node_color = '#ddeeaa';
 var root_color = '#ffaa44';
 var edge_color = '#C12222';
-
+var my_depth_to_visualize = 1;
 
 // ######## LABEL ########
 var root_label_color = '#B87333';
@@ -63,7 +63,8 @@ function init_tree(json){
             if (node._depth == 0) {
                 style.fontSize = root_lable_font_size;
                 style.color = root_label_color;
-            } else if(node._depth == 1){
+            }
+            else if(node._depth == 1){
                 style.fontSize = node_lable_1_font_size;
                 style.color = node_lable_1_color;
             
@@ -71,7 +72,8 @@ function init_tree(json){
                 style.fontSize = node_lable_2_font_size;
                 style.color = node_lable_2_color;
             
-            } else {
+            } 
+            else if(node._depth >= my_depth_to_visualize){
                 style.display = 'none';
             }
             
