@@ -4,12 +4,8 @@
  * Description: This Script return all property if a specified entity
  */
 
-$mysql_db_hostname = "localhost";
-$mysql_db_user = "webuser";
-$mysql_db_password = "dummypass";
-$mysql_db_database = "p_web";
+require_once 'config.php';
 
-//ini_set("display_errors",1);
 
 $id = $_POST["id"];
 

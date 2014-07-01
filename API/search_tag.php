@@ -4,12 +4,7 @@
  * Description: This Script return all'entities in the database that have the tag searched
  */
 
-$mysql_db_hostname = "localhost";
-$mysql_db_user = "webuser";
-$mysql_db_password = "dummypass";
-$mysql_db_database = "p_web";
-
-//ini_set("display_errors",1);
+require_once 'config.php';
 
 $tag = $_POST["tag"];
 $con = @mysqli_connect($mysql_db_hostname, $mysql_db_user, $mysql_db_password, $mysql_db_database);

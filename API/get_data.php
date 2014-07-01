@@ -6,19 +6,7 @@
  * and the criterion of similarity (type of similarity to take in consideration).
  */
 
-$mysql_db_hostname = "localhost";
-$mysql_db_user = "webuser";
-$mysql_db_password = "dummypass";
-$mysql_db_database = "p_web";
-
-//ini_set("display_errors",1);
-
-$con = @mysqli_connect($mysql_db_hostname, $mysql_db_user, $mysql_db_password, $mysql_db_database);
-if (!$con)
-	trigger_error('Could not connect to MySQL: ' . mysqli_connect_error());
-
-$id_to_search=mysqli_escape_string($con, $_POST["id"]);
-$depth=mysqli_escape_string($con, $_POST["depth"]);
+require_once 'config.php';
 
 $similarity=json_decode($_POST['similarity']);
 $len_similarity = count($similarity);
