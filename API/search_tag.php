@@ -6,9 +6,9 @@
 
 require_once 'config.php';
 
-$q = mysqli_escape_string($con,$_GET["q"]);
-$per_page = mysqli_escape_string($con,$_GET["per_page"]);
-$page_number = mysqli_escape_string($con,$_GET["page_number"]);
+$q = mysqli_escape_string($con,$_POST["q"]);
+$per_page = mysqli_escape_string($con,$_POST["per_page"]);
+$page_number = mysqli_escape_string($con,$_POST["page_number"]);
 $start_from = $per_page * $page_number;
 
 function get_elem_by_tag(){

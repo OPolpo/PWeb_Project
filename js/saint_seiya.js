@@ -149,7 +149,9 @@ function search_in_property(search){
     $jit.id('inner-list').innerHTML = "";
     
     var myData = {
-        "q" : search
+        "q" : search,
+        "per_page" : 10,
+        "page_number" : 0
     };
     
     $.ajax({
@@ -182,7 +184,9 @@ function search_in_tag(search){
     $jit.id('inner-list').innerHTML = "";
     
     var myData = {
-        "tag" : search
+        "q" : search,
+        "per_page" : 10,
+        "page_number" : 0
     };
     
     $.ajax({
