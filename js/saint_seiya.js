@@ -3,11 +3,13 @@
  * Description: This Script implement the funcion that handle the logic of the page, like button events and visualization of the info
  */
 
+var API_base_dir ="http://localhost:8888/PWeb_Project/API/";
+
+
 var labelType, useGradients, nativeTextSupport, animate;
 var json_results;
 var to_search = -1;
 var no_results="<button type='button' class='btn btn-default' disabled='disabled'>No results...</button>";
-
 var height_low = "55px";
 var is_low = 1;
 
@@ -95,7 +97,7 @@ function get_property(id){
     var json_property;
     $.ajax({
         type: "POST",
-        url: "http://localhost:8888/PWeb_Project/API/get_property.php",
+        url: API_base_dir+"get_property.php",
         data: myData,
         success: function(msg){
             json_property=jQuery.parseJSON(msg);
@@ -152,7 +154,7 @@ function search_in_property(search){
     
     $.ajax({
         type: "POST",
-        url: "http://localhost:8888/PWeb_Project/API/search_property.php",
+        url: API_base_dir+"search_property.php",
         data: myData,
         success: function(msg){
             json_results=jQuery.parseJSON(msg);
@@ -185,7 +187,7 @@ function search_in_tag(search){
     
     $.ajax({
         type: "POST",
-        url: "http://localhost:8888/PWeb_Project/API/search_tag.php",
+        url: API_base_dir+"search_tag.php",
         data: myData,
         success: function(msg){
             json_results=jQuery.parseJSON(msg);
@@ -221,7 +223,7 @@ function init(id){
         };
         $.ajax( {
             type: "POST",
-            url: "http://localhost:8888/PWeb_Project/API/get_data.php",
+            url: API_base_dir+"get_data.php",
             data: myData,
             success: function(msg){
                 json=jQuery.parseJSON(msg);
