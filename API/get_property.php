@@ -6,13 +6,7 @@
 
 require_once 'config.php';
 
-
 $id = $_POST["id"];
-
-$con = @mysqli_connect($mysql_db_hostname, $mysql_db_user, $mysql_db_password, $mysql_db_database);
-if (!$con){
-	trigger_error('Could not connect to MySQL: ' . mysqli_connect_error());
-}
 
 function get_elem_by_tag($id){
  	global $con;

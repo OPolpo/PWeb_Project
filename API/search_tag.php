@@ -6,22 +6,20 @@
 
 require_once 'config.php';
 
-$tag = $_POST["tag"];
-$con = @mysqli_connect($mysql_db_hostname, $mysql_db_user, $mysql_db_password, $mysql_db_database);
-if (!$con){
-	trigger_error('Could not connect to MySQL: ' . mysqli_connect_error());
-}
+$q = mysqli_escape_string($con,$_GET["q"]);
+$per_page = mysqli_escape_string($con,$_GET["per_page"]);
+$page_number = mysqli_escape_string($con,$_GET["page_number"]);
+$start_from = $per_page * $page_number;
 
-function get_elem_by_tag($tag_to_search){
- 	global $con;
- 	$sql_get_tag="SELECT entity.id AS id, entity_property.value_property AS name FROM entity_property JOIN entity ON entity.id = entity_property.id_entity JOIN property_type ON entity_property.id_property = property_type.id JOIN tag ON tag.id_entity = entity.id WHERE id_property=1 AND tag_value=".'"'.$tag_to_search.'";';
- 	$id_list = array();
+function get_elem_by_tag(){
+ 	global $con, $q, $per_page, $start_from;
+ 	$sql_get_tag='SELECT entity.id AS id, entity_property.value_property AS name FROM entity_property JOIN entity ON entity.id = entity_property.id_entity JOIN property_type ON entity_property.id_property = property_type.id JOIN tag ON tag.id_entity = entity.id WHERE id_property=1 AND tag_value="'.$q.'" LIMIT '.$start_from.','.$per_page.';';
+ 	$tag_list = array();
  	$result = mysqli_query($con, $sql_get_tag);
  	while ($obj = mysqli_fetch_object($result))
- 		$id_list[] = $obj;
- 	//return '{"search":'.json_encode($id_list)."}";
- 	return json_encode($id_list);
+ 		$tag_list[] = $obj;
+ 	return json_encode($tag_list);
 }
 
-echo get_elem_by_tag(mysqli_escape_string($con,$tag));
+echo get_elem_by_tag();
 ?>
