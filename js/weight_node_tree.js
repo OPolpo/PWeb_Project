@@ -68,12 +68,13 @@ function init_tree(json){
                 style.fontSize = node_lable_1_font_size;
                 style.color = node_lable_1_color;
             
-            } else if(node._depth == 2){
+            }
+            else if(node._depth == 2){
                 style.fontSize = node_lable_2_font_size;
                 style.color = node_lable_2_color;
             
             } 
-            else if(node._depth >= my_depth_to_visualize){
+            if(node._depth > my_depth_to_visualize){
                 style.display = 'none';
             }
             
@@ -85,7 +86,7 @@ function init_tree(json){
         onBeforePlotNode: function(node){
             // DIMENSION
             node.setData('dim',node.data.my_weight*30/(node._depth+1),'end');
-            if (node._depth > 2)
+            if (node._depth > my_depth_to_visualize)
                node.setData('dim',0,'end');
             
             if (node._depth == 0)
