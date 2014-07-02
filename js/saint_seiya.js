@@ -4,6 +4,8 @@
  */
 
 var API_base_dir ="http://localhost:8888/PWeb_Project/API/";
+var depth_to_fetch = "4"; //this is the depth to fetch when we initialize the graph (clicking on a node non in the graph)
+var per_page = 5; //how many result you want to show in the results view
 
 
 var labelType, useGradients, nativeTextSupport, animate;
@@ -116,7 +118,7 @@ function get_property(id){
     
 }
 
-function search(){
+function search(page_number){
     reset();
     if($jit.id('inner_rel').style.height =="100px"){
         document.getElementById('filter_button').click();
@@ -129,20 +131,20 @@ function search(){
     }
     to_search = document.getElementById('search').value;
     if($('#myonoffswitch').is(':checked'))
-        search_in_tag(to_search);
+        search_in_tag(to_search,page_number);
     else
-        search_in_property(to_search);
+        search_in_property(to_search,page_number);
 }
 
 function redo_search(){
     if (to_search != -1)
         if($('#myonoffswitch').is(':checked'))
-            search_in_tag(to_search);
+            search_in_tag(to_search,0);
         else
-            search_in_property(to_search);
+            search_in_property(to_search,0);
 }
 
-function search_in_property(search){
+function search_in_property(search, page_number){
 
     document.getElementById('search').value="";
     
@@ -150,8 +152,8 @@ function search_in_property(search){
     
     var myData = {
         "q" : search,
-        "per_page" : 10,
-        "page_number" : 0
+        "per_page" : per_page,
+        "page_number" : page_number
     };
     
     $.ajax({
@@ -178,15 +180,15 @@ function print_search(json_results, query){
         $jit.id('inner-list').innerHTML = no_results;
 }
 
-function search_in_tag(search){
+function search_in_tag(search, page_number){
     document.getElementById('search').value="";
     
     $jit.id('inner-list').innerHTML = "";
     
     var myData = {
         "q" : search,
-        "per_page" : 10,
-        "page_number" : 0
+        "per_page" : per_page,
+        "page_number" : page_number
     };
     
     $.ajax({
@@ -222,7 +224,7 @@ function init(id){
     	var json;
         var myData = {
             "id" : id,
-            "depth" : "3",
+            "depth" : depth_to_fetch,
             "similarity" : JSON.stringify(similarity_options)
         };
         $.ajax( {
