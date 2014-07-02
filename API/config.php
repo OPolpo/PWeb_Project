@@ -15,7 +15,4 @@ $con = @mysqli_connect($mysql_db_hostname, $mysql_db_user, $mysql_db_password, $
 if (!$con)
 	trigger_error('Could not connect to MySQL: ' . mysqli_connect_error());
 
-$id_to_search=mysqli_escape_string($con, $_POST["id"]);
-$depth=mysqli_escape_string($con, $_POST["depth"]);
-
 ?>

@@ -8,6 +8,9 @@
 
 require_once 'config.php';
 
+
+$id_to_search=mysqli_escape_string($con, $_POST["id"]);
+$depth=mysqli_escape_string($con, $_POST["depth"]);
 $similarity=json_decode($_POST['similarity']);
 $len_similarity = count($similarity);
 
