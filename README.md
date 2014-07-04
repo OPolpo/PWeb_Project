@@ -30,11 +30,11 @@ The Database provided is very small, you can try searching words like â€œbronzoâ
 
 	- height_low: the height of the div with the details, when it's down/close
    
-    - height_high: the height of the div with the details, when it's up/open
+	- height_high: the height of the div with the details, when it's up/open
 
-    - up_and_down_animation_time: the duration of the animation of the div with the details
+	- up_and_down_animation_time: the duration of the animation of the div with the details
 
-    - filter_show_down_animation_time: the duration of the animation of the div with the filter's criterion
+	- filter_show_down_animation_time: the duration of the animation of the div with the filter's criterion
 
 - PHP api
 
