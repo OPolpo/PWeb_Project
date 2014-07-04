@@ -248,8 +248,12 @@ function tag_pagination(search, page_number){
             alert('error tag!');
         },
         complete: function(){
-            tot_el = json_results.number;
-            tot_page = Math.floor(tot_el / per_page );
+           tot_el = json_results.number;
+            if ((tot_el % per_page) == 0 ){
+                tot_page = (tot_el / per_page );
+            }else{
+                tot_page = Math.floor(tot_el / per_page );
+            }
             create_pagination(tot_page, page_number);
         }
     });
@@ -273,8 +277,12 @@ function property_pagination(search, page_number){
             alert('error tag!');
         },
         complete: function(){
-            tot_el = json_results.number;
-            tot_page = Math.floor(tot_el / per_page );
+             tot_el = json_results.number;
+            if ((tot_el % per_page) == 0 ){
+                tot_page = (tot_el / per_page )-1;
+            }else{
+                tot_page = Math.floor(tot_el / per_page );
+            }
             create_pagination(tot_page, page_number);
         }
     });
@@ -282,7 +290,7 @@ function property_pagination(search, page_number){
 }
 
 function create_pagination(tot_page, page){
-    if(tot_page>1){
+    if(tot_page>=1){
         $jit.id('div_page').innerHTML = " <button type='button' class='btn btn-default' onclick=search(0)>&#171</button>";
         if(tot_page<=5){        
             for (i=0; i<=tot_page; i++)
@@ -304,7 +312,7 @@ function create_pagination(tot_page, page){
             }
         }
            
-        $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+(tot_page-1)+")>&#187</button>";
+        $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+(tot_page)+")>&#187</button>";
         id_page="page"+page;
         document.getElementById(id_page).style.backgroundColor="#EFEFEF";
     }
