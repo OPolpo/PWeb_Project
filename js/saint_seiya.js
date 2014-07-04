@@ -355,17 +355,12 @@ function re_init(){
 function init(id){
     reset(id);
     var similarity_options = [];
-    // if true the value is the id of the similarity criterion in the database otherwise a negative value
     var i;
-
-    // similarity_options[0] = (($('#c1>input').is(':checked')) ? 1 : -1);
-    // similarity_options[1] = (($('#c2>input').is(':checked')) ? 2 : -1);
-    // similarity_options[2] = (($('#c3>input').is(':checked')) ? 3 : -1);
 
     if(id!=null){
         var input = document.getElementById("inner_rel").getElementsByClassName("check");
         for(i=0; i < input.length; i++){
-            similarity_options[i] = (($('#'+input[i].id+'>input').is(':checked')) ? input[i].id.substr(1,input[i].id.length)*1 : -1);
+            similarity_options[i] = (($('#'+input[i].id+'>input').is(':checked')) ? input[i].id.slice(1)*1 : -1);
         }
 
 
