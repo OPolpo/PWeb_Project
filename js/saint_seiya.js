@@ -98,14 +98,14 @@ function info_toggle(){
 
 
 function filter(){
-    criterions = document.getElementById('data_filter').firstChild.nodeValue;
+    input = document.getElementById("inner_rel").getElementsByClassName("check");
     if($jit.id('inner_rel').style.height =="0px" || $jit.id('inner_rel').style.height ==0){
-        $("#inner_rel").animate({height: "30"*criterions}, filter_show_down_animation_time);
-        for(var i=1; i<=criterions; i++)
+        $("#inner_rel").animate({height: "30"*input.length}, filter_show_down_animation_time);
+        for(var i=1; i<=input.length; i++)
             $jit.id("c"+i).style.visibility="visible";
     }else{
         $("#inner_rel").animate({height: "0"}, filter_show_down_animation_time);
-        for(var i=1; i<=criterions; i++)
+        for(var i=1; i<=input.length; i++)
             $jit.id("c"+i).style.visibility="hidden";
     }
 }
