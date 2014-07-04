@@ -5,9 +5,20 @@
 
 // ############# CUSTOMIZATION VARIABLE #############
 
+//  Connection and Nerds Parameters
 var API_base_dir = "http://localhost:8888/PWeb_Project/API/";
 var depth_to_fetch = "4"; //this is the depth to fetch when we initialize the graph (clicking on a node non in the graph)
-var per_page = 5; //how many result you want to show in the results view
+
+// results's view
+var per_page = 6; //how many result you want to show in the results view
+
+// info parameter
+var height_low = "55px";
+var height_high = "200px";
+var up_and_down_animation_time = 700;
+
+// filter
+var filter_show_down_animation_time = 700;
 
 // ############# END CUSTOMIZATION VARIABLE #############
 
@@ -16,7 +27,7 @@ var labelType, useGradients, nativeTextSupport, animate;
 var json_results;
 var to_search = -1;
 var no_results="<button type='button' class='btn btn-default' disabled='disabled'>No results...</button>";
-var height_low = "55px";
+
 var is_low = 1;
 var tot_page;
 
@@ -57,13 +68,13 @@ function turn_arrow(degrees){
           $(this).css('-moz-transform','rotate('+now+'deg)'); 
           $(this).css('-ms-transform','rotate('+now+'deg)'); 
         },
-        duration:700
+        duration:up_and_down_animation_time
     });
 }
 
 function info_up(){
     if(is_low == 1){
-        $( "#root-container" ).animate({height: "150"}, 700);
+        $( "#root-container" ).animate({height: height_high}, up_and_down_animation_time);
         $jit.id('inner-details').style.display="table";
         turn_arrow('+180');
         is_low=0;
@@ -72,7 +83,7 @@ function info_up(){
 
 function info_down(){
     if(is_low == 0){
-        $( "#root-container" ).animate({height: height_low}, 700);
+        $( "#root-container" ).animate({height: height_low}, up_and_down_animation_time);
         $jit.id('inner-details').style.display="none";
         turn_arrow('0');
         is_low=1;
@@ -90,11 +101,11 @@ function info_toggle(){
 function filter(){
     criterions = document.getElementById('data_filter').firstChild.nodeValue;
     if($jit.id('inner_rel').style.height =="0px" || $jit.id('inner_rel').style.height ==0){
-        $("#inner_rel").animate({height: "30"*criterions}, 700);
+        $("#inner_rel").animate({height: "30"*criterions}, filter_show_down_animation_time);
         for(var i=1; i<=criterions; i++)
             $jit.id("c"+i).style.visibility="visible";
     }else{
-        $("#inner_rel").animate({height: "0"}, 700);
+        $("#inner_rel").animate({height: "0"}, filter_show_down_animation_time);
         for(var i=1; i<=criterions; i++)
             $jit.id("c"+i).style.visibility="hidden";
     }
