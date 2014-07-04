@@ -334,8 +334,6 @@ function get_criterion(){
                 $jit.id('inner_rel').innerHTML +="<div class='check' id='c"+json_criterion[k].id+"'' onclick='re_init()'><input type='checkbox' name='c"+json_criterion[k].id+"' checked='true'>"+ json_criterion[k].name+"</input></div><br>"; 
                 $jit.id("c"+json_criterion[k].id).style.visibility="hidden";
             }
-             $jit.id('data_filter').innerHTML = k*1+1;
-             document.getElementById('data_filter').firstChild.nodeValue=k*1+1;
         }
     });
 }
