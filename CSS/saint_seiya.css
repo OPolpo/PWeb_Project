@@ -71,7 +71,7 @@ a {
     float:left;
     text-align: left;
     height:0px;
-    width: 120px;
+    width: auto;
     z-index: 2;
     margin-left: 4px;
     margin-top: 50px;
@@ -149,9 +149,15 @@ a {
 
 #inner-list{
     margin: 20px;
-    margin-top: 15px;
+    margin-top: 10px;
     overflow: auto;
-    height:280px;
+    height:auto;
+}
+
+#ppp{
+  float: right;
+  margin: inherit;
+  margin-top: 5px;
 }
 
 #infovis {
@@ -182,6 +188,10 @@ a {
   width:20px;
   margin-left: 47%;  
   margin-top: 3px;
+}
+
+#data_filter{
+  display: none;
 }
 
 
@@ -224,7 +234,8 @@ a {
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
           box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
 }
-.btn.disabled
+.btn.disabled,
+.btn[disabled],
 fieldset[disabled] .btn {
   pointer-events: none;
   cursor: not-allowed;
@@ -247,11 +258,65 @@ fieldset[disabled] .btn {
   border-color: #adadad;
 }
 
+.btn-group{
+  float: right;
+  margin-right: inherit;
+}
+
+.btn-group .btn, 
+.btn-group .btn + .btn,
+.btn-group .btn + .btn-group,
+.btn-group .btn-group + .btn,
+.btn-group .btn-group + .btn-group {
+  margin-left: -1px;
+  margin-right: -1px;
+  padding: 3px 7px;
+  font-size: 11px;
+}
+
+.btn-group .btn:hover,
+.btn-group .btn + .btn:hover,
+.btn-group .btn + .btn-group:hover,
+.btn-group .btn-group + .btn:hover,
+.btn-group .btn-group + .btn-group :hover{
+   background-color: #CCE5FF;
+}
+
+.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+  border-radius: 0;
+}
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-group > .btn:last-child:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.btn-group > .btn-group {
+  float: left;
+}
+.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
+  border-radius: 0;
+}
+.btn-group > .btn-group:first-child > .btn:last-child,
+.btn-group > .btn-group:first-child > .dropdown-toggle {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-group > .btn-group:last-child > .btn:first-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.btn-group,
 .btn-group-vertical {
-  width: 410px;
   position: relative;
   display: inline-block;
   vertical-align: middle;
+}
+
+.btn-group-vertical {
+  width: 410px;
 }
 
 .btn-group-vertical > .btn,
@@ -370,9 +435,6 @@ textarea.form-control {
   margin-bottom: 0;
 }
 
-#c1, #c2, #c3{
-   visibility: hidden;
-}
 
 .onoffswitch {
     position: absolute; 

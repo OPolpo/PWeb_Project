@@ -30,7 +30,7 @@
         	<span class="onoffswitch-switch"></span>
    			</label>
 		</div>
-		<button type="submit" id="search_button" class="btn btn-primary" onclick="search(0)">Search</button>
+		<button type="submit" id="search_button" class="btn btn-primary" onclick="search(-1)">Search</button>
 	</div>
 	<br>
 	<div id="container">
@@ -38,9 +38,6 @@
 			<div id="filter-container">
 				<button id="filter_button" class="btn btn-primary" onclick="filter()">Filter &#9660; </span></button> <br>
 				<div id="inner_rel"> 
-					<div class="check" id="c1" onclick="re_init()"><input type='checkbox' name="c1" checked='true'> Cavaliere</input></div><br> 
-					<div class="check" id="c2" onclick="re_init()"><input type='checkbox' name="c2" checked='true'> Mossa</input></div><br>
-					<div class="check" id="c3" onclick="re_init()"><input type='checkbox' name="c3" checked='true'> Armatura</input></div>  
 				</div>
 			</div>
 	    	<div id="infovis" ></div> 
@@ -48,7 +45,9 @@
 
 		<div id="right-container">
 			<h2 id="res">Results:</h2>
-			<div id="inner-list" class="btn-group-vertical" style="height: 375px;">
+			<div id="div_page" class="btn-group">
+			</div>
+			<div id="inner-list" class="btn-group-vertical">
 				<button type='button' class='btn btn-default' disabled='disabled'>No results...</button>
 			</div>	
 			
@@ -60,5 +59,6 @@
 			</div>
 		</div>
 	</div>
+	<div id="data_filter"></div>
 </body>
 </html>

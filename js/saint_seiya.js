@@ -14,6 +14,7 @@ var to_search = -1;
 var no_results="<button type='button' class='btn btn-default' disabled='disabled'>No results...</button>";
 var height_low = "55px";
 var is_low = 1;
+var tot_page;
 
 (function() {
  var ua = navigator.userAgent,
@@ -29,10 +30,20 @@ var is_low = 1;
  animate = !(iStuff || !nativeCanvasSupport);
  })();
 
-function reset(){
+function reset(id){
+    if(id==null){
+       $jit.id('infovis').innerHTML ='<div id ="loading"></div>';
+        document.getElementById('center-container').style.backgroundColor=("#D4D4D4");
+        document.getElementById('filter_button').disabled="disabled";
+        document.getElementById('filter_button').style.backgroundColor=("#A2B5CD"); 
+    }else{
+        $jit.id('infovis').innerHTML = '<div id ="loading"><img src="resource/loading.gif"/></div>';
+        document.getElementById('center-container').style.backgroundColor=("#fff");
+        document.getElementById('filter_button').disabled="";
+        document.getElementById('filter_button').style.backgroundColor=("#23A4FF"); 
+    }    
+    $jit.id('inner-details').innerHTML = "<br>Details not available...search something, or something else!";
     info_down();
-    $jit.id('inner-details').innerHTML = "";
-    $jit.id('infovis').innerHTML = '<div id ="loading"><img src="resource/loading.gif"/></div>';
 }
 
 function turn_arrow(degrees){
@@ -49,7 +60,6 @@ function turn_arrow(degrees){
 function info_up(){
     if(is_low == 1){
         $( "#root-container" ).animate({height: "150"}, 700);
-        $( "#inner-list" ).animate({height: "280"}, 700);
         $jit.id('inner-details').style.display="table";
         turn_arrow('+180');
         is_low=0;
@@ -59,7 +69,6 @@ function info_up(){
 function info_down(){
     if(is_low == 0){
         $( "#root-container" ).animate({height: height_low}, 700);
-        $( "#inner-list" ).animate({height: "375"}, 700);
         $jit.id('inner-details').style.display="none";
         turn_arrow('0');
         is_low=1;
@@ -75,16 +84,15 @@ function info_toggle(){
 
 
 function filter(){
+    criterions = document.getElementById('data_filter').firstChild.nodeValue;
     if($jit.id('inner_rel').style.height =="0px" || $jit.id('inner_rel').style.height ==0){
-        $("#inner_rel").animate({height: "100"}, 700);
-        $jit.id('c1').style.visibility="visible";
-        $jit.id('c2').style.visibility="visible";
-        $jit.id('c3').style.visibility="visible";
+        $("#inner_rel").animate({height: "30"*criterions}, 700);
+        for(var i=1; i<=criterions; i++)
+            $jit.id("c"+i).style.visibility="visible";
     }else{
         $("#inner_rel").animate({height: "0"}, 700);
-        $jit.id('c1').style.visibility="hidden";
-        $jit.id('c2').style.visibility="hidden";
-        $jit.id('c3').style.visibility="hidden";
+        for(var i=1; i<=criterions; i++)
+            $jit.id("c"+i).style.visibility="hidden";
     }
 }
 
@@ -119,10 +127,16 @@ function get_property(id){
 }
 
 function search(page_number){
-    reset();
-    if($jit.id('inner_rel').style.height =="100px"){
-        document.getElementById('filter_button').click();
+    
+    info_down();
+
+    if(page_number=="-1"){
+       reset(); 
+       page_number=0;
     }
+    
+    if($jit.id('inner_rel').style.height >"0px")
+        filter();
 
     if(document.getElementById('search').value.length == 0) {
          $jit.id('res').innerHTML = "Results:";
@@ -145,8 +159,6 @@ function redo_search(){
 }
 
 function search_in_property(search, page_number){
-
-    document.getElementById('search').value="";
     
     $jit.id('inner-list').innerHTML = "";
     
@@ -168,21 +180,20 @@ function search_in_property(search, page_number){
         },
         complete: function(){
             print_search(json_results, search);
+            property_pagination(search, page_number);
         }
     });
 }
 function print_search(json_results, query){
     $jit.id('res').innerHTML = 'Results for "' +query+'":';
     for (var k in json_results)
-        $jit.id('inner-list').innerHTML += "<button type='button' class='btn btn-default' onclick=init("+json_results[k].id+")>"+ json_results[k].name + "</button>";
+        $jit.id('inner-list').innerHTML += "<button type='button' class='btn btn-default' onclick=pre_init("+json_results[k].id+")>"+ json_results[k].name + "</button>";
            
     if(json_results.length == 0) 
         $jit.id('inner-list').innerHTML = no_results;
 }
 
 function search_in_tag(search, page_number){
-    document.getElementById('search').value="";
-    
     $jit.id('inner-list').innerHTML = "";
     
     var myData = {
@@ -203,8 +214,117 @@ function search_in_tag(search, page_number){
         },
         complete: function(){
             print_search(json_results, search);
+            tag_pagination(search, page_number);
         }
     });
+}
+
+function tag_pagination(search, page_number){
+
+    var myData = {
+        "q" : search,
+    };
+    
+    $.ajax({
+        type: "POST",
+        url: API_base_dir+"search_tag_count.php",
+        data: myData,
+        success: function(msg){
+            json_results=jQuery.parseJSON(msg);
+        },
+        error: function(err) {
+            alert('error tag!');
+        },
+        complete: function(){
+            tot_el = json_results.number;
+            tot_page = Math.floor(tot_el / per_page );
+            create_pagination(tot_page, page_number);
+        }
+    });
+    
+}
+
+function property_pagination(search, page_number){
+
+    var myData = {
+        "q" : search,
+    };
+    
+    $.ajax({
+        type: "POST",
+        url: API_base_dir+"search_property_count.php",
+        data: myData,
+        success: function(msg){
+            json_results=jQuery.parseJSON(msg);
+        },
+        error: function(err) {
+            alert('error tag!');
+        },
+        complete: function(){
+            tot_el = json_results.number;
+            tot_page = Math.floor(tot_el / per_page );
+            create_pagination(tot_page, page_number);
+        }
+    });
+    
+}
+
+function create_pagination(tot_page, page){
+    if(tot_page>1){
+        $jit.id('div_page').innerHTML = " <button type='button' class='btn btn-default' onclick=search(0)>&#171</button>";
+        if(tot_page<=5){        
+            for (i=0; i<=tot_page; i++)
+            $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+i+") id='page"+i+"'>"+ (i+1)+ "</button>";
+        } else {
+            if(page<=2){
+               for (i=0; i<4; i++)
+                    $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+i+") id='page"+i+"'>"+ (i+1)+ "</button>";
+                $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+(i++)+")>...</button>";
+            } else if (page >= tot_page-2){
+                $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+(tot_page-4)+")>...</button>";
+                for (i=tot_page-3; i<=tot_page; i++)
+                    $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+i+") id='page"+i+"'>"+ (i+1)+ "</button>";
+            }else {
+                $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+(page-2)+")>...</button>";
+                for (i=page-1; i<=page+1; i++)
+                    $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+i+") id='page"+i+"'>"+ (i+1)+ "</button>";
+                $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+(i++)+")>...</button>";
+            }
+        }
+           
+        $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+tot_page+")>&#187</button>";
+        id_page="page"+page;
+        document.getElementById(id_page).style.backgroundColor="#EFEFEF";
+    }
+    else $jit.id('div_page').innerHTML = "";
+}
+
+function get_criterion(){
+    var json_criterion;
+    $.ajax({
+        url: API_base_dir+"get_criterion.php",
+        success: function(msg){
+            json_criterion=jQuery.parseJSON(msg);
+        },
+        error: function(err) {
+            alert('error!');
+        },
+        complete: function(){
+            $jit.id('inner_rel').innerHTML ="";
+            for (var k in json_criterion){
+                $jit.id('inner_rel').innerHTML +="<div class='check' id='c"+json_criterion[k].id+"' onclick='re_init()'><input type='checkbox' name='c"+json_criterion[k].id+"' checked='true'>"+ json_criterion[k].name+"</input></div><br>"; 
+                $jit.id("c"+json_criterion[k].id).style.visibility="hidden";
+            }
+             $jit.id('data_filter').innerHTML =k*1+1;
+             document.getElementById('data_filter').firstChild.nodeValue=k*1+1;
+        }
+    });
+}
+
+function pre_init(id){
+    if ($jit.id('inner_rel').style.height > "0px")
+        filter();
+    init(id);
 }
 
 function re_init(){
@@ -213,7 +333,7 @@ function re_init(){
 }
 
 function init(id){
-    reset();
+    reset(id);
     var similarity_options = [];
     // if true the value is the id of the similarity criterion in the database otherwise a negative value
     similarity_options[0] = (($('#c1>input').is(':checked')) ? 1 : -1);
@@ -244,5 +364,7 @@ function init(id){
             }
             });
         get_property(id);
+    }    else{
+        get_criterion();
     }
 }
