@@ -58,7 +58,6 @@ function reset(id){
         document.getElementById('filter_button').style.backgroundColor=("#23A4FF"); 
     }    
     $jit.id('inner-details').innerHTML = "<br>Details not available...search something, or something else!";
-    info_down();
 }
 
 function turn_arrow(degrees){
@@ -77,7 +76,7 @@ function info_up(){
         $( "#root-container" ).animate({height: height_high}, up_and_down_animation_time);
         $jit.id('inner-details').style.display="table";
         turn_arrow('+180');
-        is_low=0;
+        is_low = 0;
     }
 }
 
@@ -86,7 +85,7 @@ function info_down(){
         $( "#root-container" ).animate({height: height_low}, up_and_down_animation_time);
         $jit.id('inner-details').style.display="none";
         turn_arrow('0');
-        is_low=1;
+        is_low = 1;
     }
 }
 
@@ -383,7 +382,9 @@ function init(id){
             complete: function() {
                 $jit.id('loading').innerHTML = '';	
                 init_tree(json);
+                //alert(is_low);
                 info_up();
+                //alert(is_low);
             }
             });
         get_property(id);
