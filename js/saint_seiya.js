@@ -3,9 +3,13 @@
  * Description: This Script implement the funcion that handle the logic of the page, like button events and visualization of the info
  */
 
-var API_base_dir ="http://localhost:8888/PWeb_Project/API/";
+// ############# CUSTOMIZATION VARIABLE #############
+
+var API_base_dir = "http://localhost:8888/PWeb_Project/API/";
 var depth_to_fetch = "4"; //this is the depth to fetch when we initialize the graph (clicking on a node non in the graph)
 var per_page = 5; //how many result you want to show in the results view
+
+// ############# END CUSTOMIZATION VARIABLE #############
 
 
 var labelType, useGradients, nativeTextSupport, animate;
