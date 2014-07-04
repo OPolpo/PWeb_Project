@@ -292,7 +292,7 @@ function create_pagination(tot_page, page){
             }
         }
            
-        $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+tot_page+")>&#187</button>";
+        $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+(tot_page-1)+")>&#187</button>";
         id_page="page"+page;
         document.getElementById(id_page).style.backgroundColor="#EFEFEF";
     }
