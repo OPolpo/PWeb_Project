@@ -3,14 +3,16 @@
  * Description: This Script handle the visualization of the node tree.
  */
 
-// ######## NODE ########
-var node_start_color = '#FFFFFF';
-var node_color = '#ddeeaa';
+// ############# CUSTOMIZATION VARIABLE #############
+
+//  NODE 
+var node_start_color = '#FFFFFF'; // the color of the node in the first animation
+var node_color = '#ddeeaa'; 
 var root_color = '#ffaa44';
 var edge_color = '#C12222';
 var my_depth_to_visualize = 1;
 
-// ######## LABEL ########
+//  LABEL 
 var root_label_color = '#B87333';
 var root_lable_font_size = '2em';
 
@@ -19,6 +21,8 @@ var node_lable_1_font_size = '1em';
 
 var node_lable_2_color = '#800000';
 var node_lable_2_font_size = '0.7em';
+
+// ############# END CUSTOMIZATION VARIABLE #############
 
 var rgraph = null;
 function init_tree(json){

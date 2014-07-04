@@ -111,8 +111,6 @@ function filter(){
     }
 }
 
-
-
 function get_property(id){
     var out ='';
     var myData = {
@@ -138,7 +136,6 @@ function get_property(id){
             $jit.id('inner-details').innerHTML += "</dl>"; 
         }
     });
-    
 }
 
 function search(page_number){
