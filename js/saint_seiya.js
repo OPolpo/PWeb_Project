@@ -324,10 +324,10 @@ function get_criterion(){
         complete: function(){
             $jit.id('inner_rel').innerHTML ="";
             for (var k in json_criterion){
-                $jit.id('inner_rel').innerHTML +="<div class='check' id='c"+json_criterion[k].id+"' onclick='re_init()'><input type='checkbox' name='c"+json_criterion[k].id+"' checked='true'>"+ json_criterion[k].name+"</input></div><br>"; 
+                $jit.id('inner_rel').innerHTML +="<div class='check' id='c"+json_criterion[k].id+"'' onclick='re_init()'><input type='checkbox' name='c"+json_criterion[k].id+"' checked='true'>"+ json_criterion[k].name+"</input></div><br>"; 
                 $jit.id("c"+json_criterion[k].id).style.visibility="hidden";
             }
-             $jit.id('data_filter').innerHTML =k*1+1;
+             $jit.id('data_filter').innerHTML = k*1+1;
              document.getElementById('data_filter').firstChild.nodeValue=k*1+1;
         }
     });
@@ -348,9 +348,17 @@ function init(id){
     reset(id);
     var similarity_options = [];
     // if true the value is the id of the similarity criterion in the database otherwise a negative value
-    similarity_options[0] = (($('#c1>input').is(':checked')) ? 1 : -1);
-    similarity_options[1] = (($('#c2>input').is(':checked')) ? 2 : -1);
-    similarity_options[2] = (($('#c3>input').is(':checked')) ? 3 : -1);
+    var i;
+    var input = document.getElementById("inner_rel").getElementsByClassName("check");
+    alert(input.length);
+    input[0].name;
+    for(i=0; i < input.length; i++){
+        alert($('#c'+i+'>input').data("value"));
+        similarity_options[i] = (($('#c'+i+'>input').is(':checked')) ? $('#c'+i+'>input').attr("value") : -1);
+    }
+    // similarity_options[0] = (($('#c1>input').is(':checked')) ? 1 : -1);
+    // similarity_options[1] = (($('#c2>input').is(':checked')) ? 2 : -1);
+    // similarity_options[2] = (($('#c3>input').is(':checked')) ? 3 : -1);
 
     if(id!=null){
     	var json;
