@@ -60,8 +60,7 @@ a {
 
 #filter-container{
   height:auto;
-  position:relative;
-  width: auto;
+  position:initial;
   float: left;
   z-index: 2;
 }
