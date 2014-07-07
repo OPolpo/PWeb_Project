@@ -30,7 +30,7 @@ CREATE TABLE `criterion` (
   `coefficient_name` text,
   `id_entity_type_ref` int(11) NOT NULL,
   PRIMARY KEY (`id_criterion`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `criterion` (
 
 LOCK TABLES `criterion` WRITE;
 /*!40000 ALTER TABLE `criterion` DISABLE KEYS */;
-INSERT INTO `criterion` VALUES (1,'Indubbia Somiglianza magari si modifica','0',2),(2,'Possiede Mossa','0',2),(3,'Possiede Armatura','0',2);
+INSERT INTO `criterion` VALUES (1,'Indubbia Somiglianza magari si modifica','Cavaliere',2),(2,'Possiede Mossa','Mossa',2),(3,'Possiede Armatura','Armatura',2);
 /*!40000 ALTER TABLE `criterion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,4 +199,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-24  9:42:30
+-- Dump completed on 2014-07-05  0:10:28
