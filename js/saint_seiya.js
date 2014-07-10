@@ -186,6 +186,12 @@ function get_criterion(){
 function search(page_number){
     info_down();
 
+    if(page_number=="-1"){
+       reset(); 
+       page_number=0;
+    }
+
+
     if($jit.id('inner_rel').style.height >"0px")
         filter();
 
