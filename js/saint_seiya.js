@@ -289,7 +289,7 @@ function create_pagination(tot_page, page){
     var btn_close = "</button>";
     var btn_hided_part = ")>...";
 
-    if(tot_page>=1){
+    if(tot_page>1){
         $jit.id('div_page').innerHTML = btn_html_first + "0" + ")>&#171" + btn_close;
         if(tot_page<5){        
             for (i=0; i<tot_page; i++)
