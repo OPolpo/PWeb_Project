@@ -3,7 +3,9 @@
  * Description: This Script handle the visualization of the node tree.
  */
 
-// ############# CUSTOMIZATION VARIABLE #############
+// #############################################################################
+// ######################     CUSTOMIZATION VARIABLE      ######################
+// #############################################################################
 
 //  NODE 
 var node_color = '#ddeeaa'; 
@@ -29,8 +31,8 @@ var initial_animation_time = 1000;
 var initial_animation_x = -200;
 var initial_animation_y = -200;
 
+// #############################################################################
 
-// ############# END CUSTOMIZATION VARIABLE #############
 
 var rgraph = null;
 function init_tree(json){
