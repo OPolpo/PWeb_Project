@@ -6,11 +6,10 @@
 // ############# CUSTOMIZATION VARIABLE #############
 
 //  NODE 
-var node_start_color = '#FFFFFF'; // the color of the node in the first animation
 var node_color = '#ddeeaa'; 
 var root_color = '#ffaa44';
 var edge_color = '#C12222';
-var my_depth_to_visualize = 1;
+var my_depth_to_visualize = 2;
 
 //  LABEL 
 var root_label_color = '#B87333';
@@ -22,6 +21,15 @@ var node_lable_1_font_size = '1em';
 var node_lable_2_color = '#800000';
 var node_lable_2_font_size = '0.7em';
 
+//  ANIMATION
+var animation_time = 1000;
+
+var node_start_color = '#FFFFFF'; // the color of the node in the first animation
+var initial_animation_time = 1000;
+var initial_animation_x = -200;
+var initial_animation_y = -200;
+
+
 // ############# END CUSTOMIZATION VARIABLE #############
 
 var rgraph = null;
@@ -29,6 +37,7 @@ function init_tree(json){
     rgraph = new $jit.RGraph({
         //Where to append the visualization
         injectInto: 'infovis',
+        duration: animation_time,
         
         //Add navigation capabilities:
         //zooming by scrolling and panning.
@@ -110,11 +119,11 @@ function init_tree(json){
     //trigger small animation
     rgraph.graph.eachNode(function(n){
                           var pos = n.getPos();
-                          pos.setc(-200, -200);
+                          pos.setc(initial_animation_x, initial_animation_y);
                           });
     rgraph.compute('end');
     rgraph.fx.animate({
                       modes:['polar','node-property:color:dim'],
-                      duration: 2000
+                      duration: initial_animation_time
                       }); 
 }

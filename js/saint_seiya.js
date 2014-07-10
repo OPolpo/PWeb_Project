@@ -23,6 +23,7 @@ var filter_show_down_animation_time = 700;
 // ############# END CUSTOMIZATION VARIABLE #############
 
 
+
 var labelType, useGradients, nativeTextSupport, animate;
 var json_results;
 var to_search = -1;
@@ -60,16 +61,10 @@ function reset(id){
     $jit.id('inner-details').innerHTML = "<br>Details not available...search something, or something else!";
 }
 
-function turn_arrow(degrees){
-    $('#arrow_img').animate({  borderSpacing: degrees }, {
-        step: function(now,fx) {
-          $(this).css('-webkit-transform','rotate('+now+'deg)');
-          $(this).css('-moz-transform','rotate('+now+'deg)'); 
-          $(this).css('-ms-transform','rotate('+now+'deg)'); 
-        },
-        duration:up_and_down_animation_time
-    });
-}
+
+// ######################################################################
+// ##########################    DETAILS DIV    #########################
+// ######################################################################
 
 function info_up(){
     if(is_low == 1){
@@ -96,18 +91,15 @@ function info_toggle(){
         info_down();
 }
 
-
-function filter(){
-    input = document.getElementById("inner_rel").getElementsByClassName("check");
-    if($jit.id('inner_rel').style.height =="0px" || $jit.id('inner_rel').style.height ==0){
-        $("#inner_rel").animate({height: "30"*input.length}, filter_show_down_animation_time);
-        for(var i=1; i<=input.length; i++)
-            $jit.id("c"+i).style.visibility="visible";
-    }else{
-        $("#inner_rel").animate({height: "0"}, filter_show_down_animation_time);
-        for(var i=1; i<=input.length; i++)
-            $jit.id("c"+i).style.visibility="hidden";
-    }
+function turn_arrow(degrees){
+    $('#arrow_img').animate({  borderSpacing: degrees }, {
+        step: function(now,fx) {
+          $(this).css('-webkit-transform','rotate('+now+'deg)');
+          $(this).css('-moz-transform','rotate('+now+'deg)'); 
+          $(this).css('-ms-transform','rotate('+now+'deg)'); 
+        },
+        duration:up_and_down_animation_time
+    });
 }
 
 function get_property(id){
@@ -137,15 +129,53 @@ function get_property(id){
     });
 }
 
+
+// ######################################################################
+// #######################    FILTERING DROPDOWN    #####################
+// ######################################################################
+
+function filter(){
+    input = document.getElementById("inner_rel").getElementsByClassName("check");
+    if($jit.id('inner_rel').style.height =="0px" || $jit.id('inner_rel').style.height ==0){
+        $("#inner_rel").animate({height: "30"*input.length}, filter_show_down_animation_time);
+        for(var i=1; i<=input.length; i++)
+            $jit.id("c"+i).style.visibility="visible";
+    }else{
+        $("#inner_rel").animate({height: "0"}, filter_show_down_animation_time);
+        for(var i=1; i<=input.length; i++)
+            $jit.id("c"+i).style.visibility="hidden";
+    }
+}
+
+function get_criterion(){
+    var json_criterion;
+    $.ajax({
+        url: API_base_dir+"get_criterion.php",
+        success: function(msg){
+            json_criterion=jQuery.parseJSON(msg);
+        },
+        error: function(err) {
+            alert('error!');
+        },
+        complete: function(){
+            $jit.id('inner_rel').innerHTML ="";
+            for (var k in json_criterion){
+                $jit.id('inner_rel').innerHTML +="<div class='check' id='c"+json_criterion[k].id+"'' onclick='re_init()'><input type='checkbox' name='c"+json_criterion[k].id+"' checked='true'>"+ json_criterion[k].name+"</input></div><br>"; 
+                $jit.id("c"+json_criterion[k].id).style.visibility="hidden";
+            }
+        }
+    });
+}
+
+
+
+// ######################################################################
+// ##########################      SEARCH      ##########################
+// ######################################################################
+
 function search(page_number){
-    
     info_down();
 
-    if(page_number=="-1"){
-       reset(); 
-       page_number=0;
-    }
-    
     if($jit.id('inner_rel').style.height >"0px")
         filter();
 
@@ -169,8 +199,15 @@ function redo_search(){
             search_in_property(to_search,0);
 }
 
-function search_in_property(search, page_number){
-    
+function search_in_property(search, page_number){   
+    search_ajax(search, page_number, "search_property.php", "search_property_count.php");
+}
+
+function search_in_tag(search, page_number){
+    search_ajax(search, page_number, "search_tag.php", "search_tag_count.php");
+}
+
+function search_ajax(search, page_number, search_api, search_counter_api){
     $jit.id('inner-list').innerHTML = "";
     
     var myData = {
@@ -181,20 +218,21 @@ function search_in_property(search, page_number){
     
     $.ajax({
         type: "POST",
-        url: API_base_dir+"search_property.php",
+        url: API_base_dir+search_api,
         data: myData,
         success: function(msg){
             json_results=jQuery.parseJSON(msg);
         },
-        error: function(err){
-            alert('error search!');
+        error: function(err) {
+            alert('error during search!');
         },
         complete: function(){
             print_search(json_results, search);
-            property_pagination(search, page_number);
+            pagination(search, page_number, search_counter_api);
         }
     });
 }
+
 function print_search(json_results, query){
     $jit.id('res').innerHTML = 'Results for "' +query+'":';
     for (var k in json_results)
@@ -204,33 +242,9 @@ function print_search(json_results, query){
         $jit.id('inner-list').innerHTML = no_results;
 }
 
-function search_in_tag(search, page_number){
-    $jit.id('inner-list').innerHTML = "";
-    
-    var myData = {
-        "q" : search,
-        "per_page" : per_page,
-        "page_number" : page_number
-    };
-    
-    $.ajax({
-        type: "POST",
-        url: API_base_dir+"search_tag.php",
-        data: myData,
-        success: function(msg){
-            json_results=jQuery.parseJSON(msg);
-        },
-        error: function(err) {
-            alert('error tag!');
-        },
-        complete: function(){
-            print_search(json_results, search);
-            tag_pagination(search, page_number);
-        }
-    });
-}
+// Pagination
 
-function tag_pagination(search, page_number){
+function pagination(search, page_number, counter_api){
 
     var myData = {
         "q" : search,
@@ -238,105 +252,61 @@ function tag_pagination(search, page_number){
     
     $.ajax({
         type: "POST",
-        url: API_base_dir+"search_tag_count.php",
+        url: API_base_dir + counter_api,
         data: myData,
         success: function(msg){
             json_results=jQuery.parseJSON(msg);
         },
         error: function(err) {
-            alert('error tag!');
+            alert('error during pagination!');
         },
         complete: function(){
-           tot_el = json_results.number;
-            if ((tot_el % per_page) == 0 ){
-                tot_page = (tot_el / per_page );
-            }else{
-                tot_page = Math.floor(tot_el / per_page );
-            }
+            tot_el = json_results.number;
+            tot_page = Math.ceil(tot_el / per_page);
             create_pagination(tot_page, page_number);
         }
     });
-    
-}
-
-function property_pagination(search, page_number){
-
-    var myData = {
-        "q" : search,
-    };
-    
-    $.ajax({
-        type: "POST",
-        url: API_base_dir+"search_property_count.php",
-        data: myData,
-        success: function(msg){
-            json_results=jQuery.parseJSON(msg);
-        },
-        error: function(err) {
-            alert('error tag!');
-        },
-        complete: function(){
-             tot_el = json_results.number;
-            if ((tot_el % per_page) == 0 ){
-                tot_page = (tot_el / per_page )-1;
-            }else{
-                tot_page = Math.floor(tot_el / per_page );
-            }
-            create_pagination(tot_page, page_number);
-        }
-    });
-    
 }
 
 function create_pagination(tot_page, page){
+    var btn_html_first = " <button type='button' class='btn btn-default' onclick=search(";
+    var btn_close = "</button>";
+    var btn_hided_part = ")>...";
+
     if(tot_page>=1){
-        $jit.id('div_page').innerHTML = " <button type='button' class='btn btn-default' onclick=search(0)>&#171</button>";
-        if(tot_page<=5){        
-            for (i=0; i<=tot_page; i++)
-            $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+i+") id='page"+i+"'>"+ (i+1)+ "</button>";
-        } else {
+        $jit.id('div_page').innerHTML = btn_html_first + "0" + ")>&#171" + btn_close;
+        if(tot_page<5){        
+            for (i=0; i<tot_page; i++)
+            $jit.id('div_page').innerHTML += btn_html_first + i + ") id='page" + i + "'>" + (i+1) + btn_close;
+        }
+        else {
             if(page<=2){
                for (i=0; i<4; i++)
-                    $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+i+") id='page"+i+"'>"+ (i+1)+ "</button>";
-                $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+(i++)+")>...</button>";
-            } else if (page >= tot_page-2){
-                $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+(tot_page-4)+")>...</button>";
-                for (i=tot_page-3; i<=tot_page; i++)
-                    $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+i+") id='page"+i+"'>"+ (i+1)+ "</button>";
+                    $jit.id('div_page').innerHTML += btn_html_first + i + ") id='page" + i + "'>" + (i+1)+ btn_close;
+                $jit.id('div_page').innerHTML += btn_html_first + (i++) + btn_hided_part + btn_close;
+            } else if (page > tot_page-3){
+                $jit.id('div_page').innerHTML += btn_html_first + (tot_page-4) + btn_hided_part + btn_close;
+                for (i=tot_page-4; i<tot_page; i++)
+                    $jit.id('div_page').innerHTML += btn_html_first+i+") id='page" + i + "'>" + (i+1) + btn_close;
             }else {
-                $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+(page-2)+")>...</button>";
+                $jit.id('div_page').innerHTML += btn_html_first + (page-2) + btn_hided_part + btn_close;
                 for (i=page-1; i<=page+1; i++)
-                    $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+i+") id='page"+i+"'>"+ (i+1)+ "</button>";
-                $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+(i++)+")>...</button>";
+                    $jit.id('div_page').innerHTML += btn_html_first + i + ") id='page" + i + "'>" + (i + 1) + btn_close;
+                $jit.id('div_page').innerHTML += btn_html_first + (i++) + btn_hided_part + btn_close;
             }
         }
            
-        $jit.id('div_page').innerHTML += " <button type='button' class='btn btn-default' onclick=search("+(tot_page)+")>&#187</button>";
+        $jit.id('div_page').innerHTML += btn_html_first + (tot_page-1) + ")>&#187" + btn_close;
         id_page="page"+page;
         document.getElementById(id_page).style.backgroundColor="#EFEFEF";
     }
     else $jit.id('div_page').innerHTML = "";
 }
 
-function get_criterion(){
-    var json_criterion;
-    $.ajax({
-        url: API_base_dir+"get_criterion.php",
-        success: function(msg){
-            json_criterion=jQuery.parseJSON(msg);
-        },
-        error: function(err) {
-            alert('error!');
-        },
-        complete: function(){
-            $jit.id('inner_rel').innerHTML ="";
-            for (var k in json_criterion){
-                $jit.id('inner_rel').innerHTML +="<div class='check' id='c"+json_criterion[k].id+"'' onclick='re_init()'><input type='checkbox' name='c"+json_criterion[k].id+"' checked='true'>"+ json_criterion[k].name+"</input></div><br>"; 
-                $jit.id("c"+json_criterion[k].id).style.visibility="hidden";
-            }
-        }
-    });
-}
+
+// ######################################################################
+// #######################    GRAPH FETCH DATA    #######################
+// ######################################################################
 
 function pre_init(id){
     if ($jit.id('inner_rel').style.height > "0px")
@@ -360,7 +330,6 @@ function init(id){
             similarity_options[i] = (($('#'+input[i].id+'>input').is(':checked')) ? input[i].id.slice(1)*1 : -1);
         }
 
-
     	var json;
         var myData = {
             "id" : id,
@@ -380,9 +349,7 @@ function init(id){
             complete: function() {
                 $jit.id('loading').innerHTML = '';	
                 init_tree(json);
-                //alert(is_low);
                 info_up();
-                //alert(is_low);
             }
             });
         get_property(id);
