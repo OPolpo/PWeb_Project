@@ -30,6 +30,7 @@ var node_start_color = '#FFFFFF'; // the color of the node in the first animatio
 var initial_animation_time = 1000;
 var initial_animation_x = -200;
 var initial_animation_y = -200;
+var initial_anim_mode = "polar"; //linear / polar
 
 // #############################################################################
 
@@ -125,7 +126,7 @@ function init_tree(json){
                           });
     rgraph.compute('end');
     rgraph.fx.animate({
-                      modes:['polar','node-property:color:dim'],
+                      modes:[initial_anim_mode,'node-property:color:dim'],
                       duration: initial_animation_time
                       }); 
 }

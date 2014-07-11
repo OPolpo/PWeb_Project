@@ -7,6 +7,9 @@ The aim of the project is to implement a system to explore (with a weighted node
 The schema of the database is defined by the professor.
 To achieve our purpose, we used a modified versione of JIT, a rgraph class with little changes.
 
+If you want to try:
+http://www.omnip.it/PWeb_Project/
+
 **Usage tip**
 
 The Database provided is very small, you can try searching words like “bronzo” or “nero” to have some tag results.
